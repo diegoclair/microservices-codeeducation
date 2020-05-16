@@ -5,6 +5,11 @@ services:
         build: .
         container_name: app
         entrypoint: ./.docker/entrypoint.sh
+        environment: 
+            - DB_HOST=db
+            - DB_DATABASE=laravel
+            - DB_USERNAME=root
+            - DB_PASSWORD=root
         volumes: 
             - .:/var/www
         depends_on: 
