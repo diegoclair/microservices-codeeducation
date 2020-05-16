@@ -10,6 +10,17 @@
 # Diego Docker image from dockerhub:  
 - [Clique aqui](https://hub.docker.com/repository/docker/diegoclair/challenge-docker-laravel)
 
+# Start application
+## Permissions first:  
+For <b>Unix</b> enviroment run the comand:  
+* <b>```chmod +x .docker/entrypoint.sh```</b>  
+
+For <b>Windows</b> enviroment run the comand:   
+* <b>```dos2unix +x .docker/entrypoint.sh```</b>  
+
+Now you can run:  <br>
+* <b>```docker-compose up```</b>
+<br><br>
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
