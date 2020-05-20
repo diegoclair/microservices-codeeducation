@@ -13,7 +13,8 @@
 # Start application
 ## Permissions first:  
 For <b>Unix</b> enviroment run the comand:  
-* <b>```chmod +x .docker/entrypoint.sh```</b>  
+* <b>```sudo chmod +x .docker/entrypoint.sh```</b>  
+* <b>```sudo chmod 777 -R storage```</b>
 
 For <b>Windows</b> enviroment run the comand:   
 * <b>```dos2unix +x .docker/entrypoint.sh```</b>  

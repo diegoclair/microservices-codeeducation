@@ -18,8 +18,7 @@ COPY . /var/www
 
 RUN composer install \
     && php artisan key:generate \
-    && php artisan config:cache \
-    && chmod 755 -R storage
+    && php artisan config:cache
 
 RUN npm install 
 
