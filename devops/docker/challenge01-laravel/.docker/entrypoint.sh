@@ -1,5 +1,9 @@
 #!/bin/bash
 
+cp ./.docker/app/.env-example ./.docker/app/.env
+cp .env-example .env
+#chmod 777 -R storage
+
 #set our .env dinamically by templates using dockerize
 #with this template, we can use dinamically values with {{some value}} in .env as we can see in .docker/app/.env
 #We just set the env in the compose and it will set the values to .env

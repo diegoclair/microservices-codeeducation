@@ -15,6 +15,9 @@ RUN rm -rf /var/www/html
 RUN ln -s public html
 
 COPY . /var/www
+RUN chmod 777 -R /var/www/storage
+RUN cp ./.docker/app/.env-example ./.docker/app/.env && \
+    cp .env-example .env
 
 RUN composer install \
     && php artisan key:generate \

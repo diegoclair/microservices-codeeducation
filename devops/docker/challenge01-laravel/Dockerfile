@@ -15,7 +15,9 @@ RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/
 
 COPY . /var/www
 RUN ln -s public html
-RUN chmod 755 -R /var/www/storage
+RUN chmod 777 -R /var/www/storage
+RUN cp ./.docker/app/.env-example ./.docker/app/.env && \
+    cp .env-example .env
 
 RUN composer install && \
     php artisan key:generate && \
