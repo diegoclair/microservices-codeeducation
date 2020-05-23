@@ -16,7 +16,7 @@ For <b>Unix</b> enviroment run the comand:
 * <b>```sudo chmod +x .docker/entrypoint.sh```</b>  
 * <b>```sudo chmod 777 -R storage```</b>
 
-For <b>Windows</b> enviroment run the comand:   
+For <b>Windows</b> enviroment run the comand (Is better use git bash terminal):   
 * <b>```dos2unix +x .docker/entrypoint.sh```</b>  
 
 Now you can run:  <br>
