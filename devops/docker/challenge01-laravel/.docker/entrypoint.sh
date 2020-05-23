@@ -12,6 +12,7 @@ dockerize -template ./.docker/app/.env:.env
 #dockerize will try to connect to our service db for 40s
 dockerize -wait tcp://db:3306 -timeout 40s
 
+
 #after connect to db above, we will install the composer and run the migrations
 #we did the composer install in dockerfile, but we need to do here too because when we install the composer from dockerfile
 #it will create the vendor folder, but after that, the docker-compose will share the volume that we have in our machine, and if

@@ -20,9 +20,14 @@ services:
             
     nginx:
         build: .docker/nginx
+        #image: nginx
         container_name: nginx
+        entrypoint: dockerize -template /etc/nginx/conf.d/nginx.conf:/etc/nginx/conf.d/nginx.conf -wait tcp://app:9000 -timeout 40s -wait-retry-interval 2s nginx
         restart: always
         tty: true
+        environment: 
+            - NGINX_HOST=app
+            - NGINX_PORT=9000
         ports: 
             - "8000:80"
         volumes: 
