@@ -4,10 +4,6 @@ steps:
   name: 'gcr.io/$PROJECT_ID/docker-compose:1.25.5'
   args: ['-f', 'devops/docker/challenge01-laravel/docker-compose.cloudbuild.yml', 'up', '-d']
 
-- id: "Rodando docker ps"
-  name: 'gcr.io/cloud-builders/docker'
-  args: ['ps']
-
 - id: "Rodando composer"
   name: 'gcr.io/cloud-builders/docker'
   args: ['exec','-t','app','composer','install']
