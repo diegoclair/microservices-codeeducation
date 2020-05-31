@@ -14,7 +14,7 @@ steps:
 
 - id: "Copiando .env"
   name: 'gcr.io/cloud-builders/docker'
-  args: ['exec','-t','app','cp','.env.example','.env']
+  args: ['exec','-t','app','cp','.env-example','.env']
 
 - id: "Rodando php key generate"
   name: 'gcr.io/cloud-builders/docker'
