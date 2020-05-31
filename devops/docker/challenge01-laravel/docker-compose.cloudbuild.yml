@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+    app:
+        build: .
+        container_name: app
+        # entrypoint: ./.docker/entrypoint.sh
+        # environment: 
+        #     - DB_HOST=db
+        #     - DB_DATABASE=laravel
+        #     - DB_USERNAME=root
+        #     - DB_PASSWORD=root
+        volumes: 
+            - .:/var/www
+        depends_on: 
+            - db
+            - redis
+        networks:
+            - app-network
+            
+    nginx:
+        build: .docker/nginx
+        container_name: nginx
+        entrypoint: dockerize -template /etc/nginx/conf.d/nginx.conf:/etc/nginx/conf.d/nginx.conf -wait tcp://app:9000 -timeout 40s -wait-retry-interval 2s nginx
+        restart: always
+        tty: true
+        environment: 
+            - NGINX_HOST=app
+            - NGINX_PORT=9000
+        ports: 
+            - "8000:80"
+        volumes: 
+            - .:/var/www
+        depends_on: 
+            - app
+        networks: 
+            - app-network
+    
+    db:
+        image: mysql:5.7
+        #this command is important to mysql to run OK
+        command: --innodb-use-native-aio=0
+        container_name: db
+        restart: always
+        tty: true
+        ports: 
+            - "3306:3306"
+        environment: 
+            - MYSQL_DATABASE=laravel
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=root
+        volumes: 
+            - ./.docker/dbdata:/var/lib/mysql
+        networks: 
+            - app-network
+
+    redis:
+        image: redis:alpine
+        expose: 
+            - 6379
+        networks: 
+            - app-network
+
+networks: 
+    app-network:
+        driver: bridge
