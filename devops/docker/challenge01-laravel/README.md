@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-# Diego Docker image from dockerhub:  
+# My Docker image from dockerhub:  
 - [Clique aqui](https://hub.docker.com/repository/docker/diegoclair/challenge-docker-laravel)
 
 # Start application
