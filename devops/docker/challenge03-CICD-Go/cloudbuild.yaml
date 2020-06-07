@@ -9,7 +9,7 @@ steps:
 
   - id: go_test
     name: 'gcr.io/cloud-builders/go'
-    args: ['test']
+    args: ['test','./src/soma']
     env: ['GOPATH=.']
 
   - id: go_build
