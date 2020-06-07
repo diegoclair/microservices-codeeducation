@@ -12,14 +12,9 @@ steps:
     args: ['test','./devops/docker/challenge03-CI-Go/src/soma']
     env: ['GOPATH=.']
 
-  - id: go_build
-    name: 'gcr.io/cloud-builders/go'
-    args: ['build']
-    env: ['GOPATH=./src/soma']
-
   - id: docker_build
     name: 'gcr.io/cloud-builders/docker'
-    args: ['build','-t','gcr.io/$PROJECT_ID/challenge03:latest', '.']
+    args: ['build','-t','gcr.io/$PROJECT_ID/challenge03:latest', './devops/docker/challenge03-CI-Go/']
 
 
 # here the cloud build do the push automatically
