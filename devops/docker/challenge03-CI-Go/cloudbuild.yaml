@@ -1,0 +1,27 @@
+steps:
+  # While this step isn’t actually required, I find it useful to output your version of Go within CI. 
+  # If your pipeline breaks suddenly or if a new issue comes up, you can check the version mentioned in the logs and see if it’s changed. 
+  # This can give you a good starting point to troubleshoot.
+  - id: go_version
+    name: 'gcr.io/cloud-builders/go'
+    args: ['version']
+    env: ['GOPATH=.']
+
+  - id: go_test
+    name: 'gcr.io/cloud-builders/go'
+    args: ['test','./devops/docker/challenge03-CI-Go/src/soma']
+    env: ['GOPATH=.']
+
+  - id: go_build
+    name: 'gcr.io/cloud-builders/go'
+    args: ['build']
+    env: ['GOPATH=./src/soma']
+
+  - id: docker_build
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['build','-t','gcr.io/$PROJECT_ID/challenge03:latest', '.']
+
+
+# here the cloud build do the push automatically
+images:
+  - 'gcr.io/$PROJECT_ID/challenge03:latest'
