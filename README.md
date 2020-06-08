@@ -68,3 +68,6 @@ We are going to develop the following microservices:
   - Redis
   - MySQL
   - Elastic Search
+
+## Extras
+In this repo, you will find the module challenges that I did during the course.
