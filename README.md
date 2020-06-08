@@ -59,7 +59,7 @@ We are going to develop the following microservices:
 * Programming languages
   - Golang
   - Nodejs
-  - PHP
+  - PHP (Laravel)
   - React
 * Messaging Queues
   - RabbitMQ
