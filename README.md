@@ -30,16 +30,16 @@ We are going to develop the following microservices:
   <img alt="Single-Sign-On" title="#Single-Sign-On" src=".github/single-sign-on.png" width="350px" />
 
 * User Subscription: <br/>
-<img alt="User-Subscription" title="#User-Subscription" src=".github/single-sign-on.png" width="350px" />
+  <img alt="User-Subscription" title="#User-Subscription" src=".github/single-sign-on.png" width="350px" />
 
 * Search: <br/>
-<img alt="Search" title="#Search" src=".github/search.png" width="350px" />
+  <img alt="Search" title="#Search" src=".github/search.png" width="350px" />
 
 * Video Catalog: <br/>
-<img alt="Video-catalog" title="#Video-catalog" src=".github/video-catalog.png" width="350px" />
+  <img alt="Video-catalog" title="#Video-catalog" src=".github/video-catalog.png" width="350px" />
 
 * Encoding videos: <br/>
-<img alt="Encoding-video" title="#Encoding-video" src=".github/encoding-video.png" width="350px" />
+  <img alt="Encoding-video" title="#Encoding-video" src=".github/encoding-video.png" width="350px" />
 
 ## Status
 🚧 In development
