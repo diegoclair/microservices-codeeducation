@@ -15,11 +15,11 @@
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/diegoclair/bookstore_microservices?label=Last%20commit">
   </a>
 
-  <img alt="GitHub languages count" src="https://img.shields.io/github/languages/count/diegoclair/bookstore_microservices">
+  <img alt="GitHub languages count" src="https://img.shields.io/github/languages/count/diegoclair/bookstore_microservices" style="margin-left:3px;">
 
   <a href="https://www.linkedin.com/in/diegoclair/">
-    <img alt="Made by Diego Clair" src="https://img.shields.io/badge/Made%20by-Diego%20Clair-informational">
-  <img src="https://img.icons8.com/color/2x/linkedin.png" width="22.px" height="2px" style="margin-left:-3px">  
+    <img alt="Made by Diego Clair" src="https://img.shields.io/badge/Made%20by-Diego%20Clair-informational" style="margin-left:3px;">
+  <img src="https://img.icons8.com/color/2x/linkedin.png" width="24px" height="25.1px" style="margin-left:-3px; margin-bottom: -2.9px">  
   </a>
 </p>
 
@@ -71,4 +71,4 @@ We are going to develop the following microservices:
   - Elastic Search
 
 ## Extras
-In this repo, you will find the module challenges that I did during the course.
+In this repo, you'll find the module with challenges that I did during the course.
