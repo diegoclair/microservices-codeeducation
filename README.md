@@ -22,17 +22,24 @@ The bookstore microservices contains 3 microservices that are using golang progr
 
 ## Technologies and content
 * Software Architecture
+  - SOLID
+  - DDD
+  - Microservice architecture
+  - Monolitic architecture
+  - Microservice communication types
 * Devops
-* Docker
-* Kubernetes
-* Git flow
-* CI/CD
-* Golang
-* Nodejs
-* PHP
-* RabbitMQ
-* React
-* Kafka
+  - Git flow
+  - Docker
+  - Kubernetes
+  - CI/CD
+* Programming languages
+  - Golang
+  - Nodejs
+  - PHP
+  - React
+* Messaging Queues
+  - RabbitMQ
+  - Kafka
 
 # Status
 🚧 In development
