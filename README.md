@@ -20,6 +20,9 @@
 ## 📝 Project
 The bookstore microservices contains 3 microservices that are using golang programming language.
 
+## Status
+🚧 In development
+
 ## Technologies and content
 * Software Architecture
   - SOLID
@@ -40,6 +43,3 @@ The bookstore microservices contains 3 microservices that are using golang progr
 * Messaging Queues
   - RabbitMQ
   - Kafka
-
-# Status
-🚧 In development
