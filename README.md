@@ -52,28 +52,30 @@ We are going to develop the following microservices:
   - Microservice architecture ✅
   - Microservice communication types ✅
   - SOLID  ✅
-  - DDD
+  - DDD 🚧
 
 * Devops 🚧
   - Docker ✅
   - Git flow ✅
-  - CI ✅
+  - CI (Continuous Integration) ✅
+     - CI using Google CloudBuild ✅
   - Kubernetes 🚧
+     - Kubernetes using GCP (Google Cloud Plataform)
   - CD
-* Programming languages
+* Programming languages 🕒
   - Golang
   - Nodejs
   - PHP (Laravel)
   - React
-* Messaging Queues
+* Messaging Queues 🕒
   - RabbitMQ
   - Kafka
-* Databases
+* Databases 🕒
   - Redis
   - MySQL
   - Elastic Search
 
-## Extras
+## Extras 🚧
 In this repo, you'll find the challenges that I did during the course.
 * Repo challenge 01
   - Challenges:
