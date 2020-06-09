@@ -46,17 +46,20 @@ We are going to develop the following microservices:
 🚧 In development
 
 ## Technologies and content
-* Software Architecture
-  - SOLID
+* Software Architecture 🚧
+  - Introduction
+  - Monolitic architecture ✅
+  - Microservice architecture ✅
+  - Microservice communication types ✅
+  - SOLID  ✅
   - DDD
-  - Microservice architecture
-  - Monolitic architecture
-  - Microservice communication types
-* Devops
-  - Git flow
-  - Docker
-  - Kubernetes
-  - CI/CD
+
+* Devops 🚧
+  - Docker ✅
+  - Git flow ✅
+  - CI ✅
+  - Kubernetes 🚧
+  - CD
 * Programming languages
   - Golang
   - Nodejs
