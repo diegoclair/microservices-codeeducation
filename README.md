@@ -77,7 +77,8 @@ We are going to develop the following microservices:
 
 ## Extras 🚧
 In this repo, you'll find the challenges that I did during the course.
-* Repo challenge 01
+* [Repo challenge 01](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge01-laravel)
   - Challenges:
-    - [Publishing a Laravel image to dockerhub](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge01-laravel)
+    - Publishing a Laravel image to dockerhub
     - ...
+* [Repo challenge 02]()
