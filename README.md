@@ -23,9 +23,9 @@
   </a>
 </p>
 
-## 📝 Project 
+## Project 📝
 In this training we'll develop an application like Netflix, where the user will be able to create an account, to make a subscription, look for a movie and watch them.
-### 💻 Features 
+### Features 💻
 We are going to develop the following microservices:
 * Authentication Single Sign On: <br/>
   <img alt="Single-Sign-On" title="#Single-Sign-On" src=".github/single-sign-on.png" width="350px" />
@@ -45,7 +45,7 @@ We are going to develop the following microservices:
 ## Status
 In development 🚧
 
-## 👨‍💻  Technologies and content
+## Technologies and content 👨‍💻 
 * Software Architecture 🚧
   - Introduction
   - Monolitic architecture ✅
@@ -55,7 +55,7 @@ In development 🚧
   - DDD 🚧
 
 * Devops 🚧
-  - 🐳 [Docker](https://www.docker.com/) ✅
+  - [Docker](https://www.docker.com/) 🐳✅
   - Git flow ✅
   - CI (Continuous Integration) ✅
      - CI using Google CloudBuild ✅
@@ -92,7 +92,7 @@ In this repo, you'll find the challenges that I did during the course.
     - [Repo](https://github.com/diegoclair/ci-gcp): Create a docker-compose image and push to GCP Container Register.
     - Implement CI process at [Laravel Repo](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge01-laravel) to each pull request created and to any branch.
     
-* [Repo challenge 03](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge03-CI-Go) - Docker 🐳 and CI:
+* [Repo challenge 03](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge03-CI-Go) -  CI an Docker 🐳:
   - Challenges:
     - Create a project in Go with a function <b>soma</b> and add a test for it.
     - Implement the CI process that will execute the unit test, generate and push the image to GCP Container Register and with trigger with github repo to start CI process when execute any push to any branch.
