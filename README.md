@@ -23,9 +23,9 @@
   </a>
 </p>
 
-## :memo:  Project
+## 📝 Project
 In this training we'll develop an application like Netflix, where the user will be able to create an account, to make a subscription, look for a movie and watch them.
-### 💻 <b> Features
+### 💻 Features
 We are going to develop the following microservices:
 * Authentication Single Sign On: <br/>
   <img alt="Single-Sign-On" title="#Single-Sign-On" src=".github/single-sign-on.png" width="350px" />
@@ -99,4 +99,3 @@ In this repo, you'll find the challenges that I did during the course.
     
 * Repo challenge 04 - Kubernetes: 
   - In progress 🚧
-    
