@@ -45,7 +45,7 @@ We are going to develop the following microservices:
 ## Status
 In development 🚧
 
-## :man_technologist: Technologies and content
+## 👨‍💻  Technologies and content
 * Software Architecture 🚧
   - Introduction
   - Monolitic architecture ✅
