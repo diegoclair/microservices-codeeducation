@@ -76,9 +76,27 @@ We are going to develop the following microservices:
   - Elastic Search
 
 ## Extras 🚧
-In this repo, you'll find the challenges that I did during the course.
-* [Repo challenge 01](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge01-laravel)
+In this repo, you'll find the challenges that I did during the course.  
+
+* [Repo challenge 01](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge01-laravel) - Docker:
   - Challenges:
     - Publishing a Laravel image to dockerhub
-    - ...
-* [Repo challenge 02]()
+    - Using Dockerize template to define environment variables for nginx image in docker-compose.yaml  
+    
+* [Repo challenge 02](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge02-golang) - Docker:
+  - Challenges:
+    - Publishing a Golang image to dockerhub that print the text: 'Code.education Rocks!'  
+    
+* (CI) Continuous Integration challenge:
+  - Challenges:
+    - [Repo](https://github.com/diegoclair/ci-gcp): Create a docker-compose image and push to GCP Container Register.
+    - Implement CI process at [Laravel Repo](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge01-laravel) to each pull request created and to any branch.  
+    
+* [Repo challenge 03](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge03-CI-Go) - Docker and CI:
+  - Challenges:
+    - Create a project in Go with a function <b>soma</b> and add a test for it.
+    - Implement the CI process that will execute the unit test, generate and push the image to GCP Container Register and with trigger with github repo to start CI process when execute any push to any branch.  
+    
+* Repo challenge 04 - Kubernetes: 
+  - In progress    
+    
