@@ -56,24 +56,24 @@ In development 🚧
 
 * Devops 🚧
   - [Docker](https://www.docker.com/) ✅
-  - Git flow ✅
-  - CI (Continuous Integration) ✅
+  - [GitFlow](https://datasift.github.io/gitflow/IntroducingGitFlow.html) ✅
+  - [CI](https://codeship.com/continuous-integration-essentials) (Continuous Integration) ✅
      - CI using Google CloudBuild ✅
-  - Kubernetes 🚧
+  - [Kubernetes](https://kubernetes.io/) 🚧
      - Kubernetes using GCP (Google Cloud Plataform)
-  - CD
+  - [CD](https://codeship.com/continuous-integration-essentials)
 * Programming languages 🕒
-  - Golang
-  - Nodejs
-  - PHP (Laravel)
-  - React
+  - [Golang](https://golang.org/)
+  - [Nodejs](https://nodejs.org/en/about/)
+  - [PHP](https://laravel.com/) (Laravel)
+  - [React](https://reactjs.org/)
 * Messaging Queues 🕒
-  - RabbitMQ
-  - Kafka
+  - [RabbitMQ](https://www.rabbitmq.com/)
+  - [Kafka](https://kafka.apache.org/)
 * Databases 🕒
-  - Redis
-  - MySQL
-  - Elastic Search
+  - [Redis](https://redis.io/)
+  - [MySQL](https://www.mysql.com/)
+  - [Elasticsearch + kibana](https://www.elastic.co/)
 
 ## Extras 🚧
 In this repo, you'll find the challenges that I did during the course.  
