@@ -23,7 +23,7 @@
   </a>
 </p>
 
-## 📝 <b> Project
+## :memo:  Project
 In this training we'll develop an application like Netflix, where the user will be able to create an account, to make a subscription, look for a movie and watch them.
 ### 💻 <b> Features
 We are going to develop the following microservices:
