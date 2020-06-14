@@ -27,7 +27,12 @@ spec:                     # deployment spec
         
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: root
+        # how to create a secret password at command line: 
+          # kubectl create secret generic mysql-pass --from-literal=password='a1s2d3f4'
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
         
         ports:
         - containerPort: 3306
