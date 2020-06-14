@@ -97,5 +97,5 @@ In this repo, you'll find the challenges that I did during the course.
     - Create a project in Go with a function <b>soma</b> and add a test for it.
     - Implement the CI process that will execute the unit test, generate and push the image to GCP Container Register and with trigger with github repo to start CI process when execute any push to any branch.
     
-* Repo challenge 04 - Kubernetes: 
+* [Repo challenge 04](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/k8s) - Kubernetes: 
   - In progress 🚧
