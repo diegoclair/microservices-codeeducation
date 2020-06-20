@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf-challenge
+data:
+  nginx.conf: | #key name to use as path in deployment volume
+
+    server {
+      listen 80;
+      index index.php index.html;
+      root /usr/share/nginx/html;
+      
+      location / {
+        return 200 'Code.education Rocks.';
+        add_header Content-Type text/plain;
+      }
+    }
+    

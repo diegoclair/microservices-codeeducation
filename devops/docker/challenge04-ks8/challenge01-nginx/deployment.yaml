@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-nginx
+  labels:
+    app: challenge-nginx
+spec:
+  selector:
+    matchLabels:
+      app: challenge-nginx
+  replicas: 3
+  template:  # pods
+    metadata: 
+      labels:
+        app: challenge-nginx
+    spec:
+      containers:
+
+      - name: challenge-nginx
+        image: nginx:1.17-alpine
+        ports:
+        - containerPort: 80
+
+        volumeMounts:
+        - mountPath: /etc/nginx/conf.d  # it will replace the original nginx.conf wih our volume
+          name: nginx-conf              # name of our volune definition
+          readOnly: true
+
+      volumes:                # volume definition
+      - name: nginx-conf
+        configMap:            # our configmap with the nginx definition
+          name: nginx-conf-challenge
+          items:
+          - key: nginx.conf
+            path: nginx.conf  # file name with key: nginx.conf content
+        

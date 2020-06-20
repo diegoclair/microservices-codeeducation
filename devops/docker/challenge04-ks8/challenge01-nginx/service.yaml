@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: challenge-nginx
+  type: LoadBalancer  #if we see the deployment.yaml, we have 3 replications, so the kubernetes we'll do the LoadBalance automatically between this 3 pods replicas
+  ports:
+    - port: 80
+
