@@ -36,8 +36,8 @@ spec:
 
       volumes:                # volume definition
       - name: nginx-conf
-        configMap: 
-          name: nginx-conf
+        configMap:            # our configmap with the nginx definition
+          name: nginx-conf  
           items:
           - key: nginx.conf
             path: nginx.conf  # file name with key: nginx.conf content
