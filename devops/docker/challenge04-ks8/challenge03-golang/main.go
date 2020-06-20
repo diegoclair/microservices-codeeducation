@@ -7,11 +7,8 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, greeting("Code.education Rocks!"))
-}
 
-func greeting(message string) string {
-	return fmt.Sprintf("<b>%s</b>", message)
+	fmt.Fprintf(w, greeting("Code.education Rocks!"))
 }
 
 func main() {
