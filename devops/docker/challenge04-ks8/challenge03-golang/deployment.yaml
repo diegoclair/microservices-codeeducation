@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-golang
+  labels:
+    app: challenge-golang
+spec:
+  selector:
+    matchLabels:
+      app: challenge-golang
+  replicas: 1
+  template:  # pods
+    metadata: 
+      labels:
+        app: challenge-golang
+    spec:
+      containers:
+
+      - name: challenge-golang
+        image: diegoclair/challenge04-03
+        ports:
+        - containerPort: 8000

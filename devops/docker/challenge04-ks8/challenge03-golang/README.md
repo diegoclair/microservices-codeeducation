@@ -8,6 +8,7 @@
 - Create a optimized Dockerfile image.
 - Create a cloudbuild file to CI process.
 - Create a trigger in GCP to read the cloudbuild file always when a push is made to any branch.
+- Create kubernetes type LoadBalance service to access on the browser
 
 # Start application
 - Run the command: <b>```docker-compose up```</b>
