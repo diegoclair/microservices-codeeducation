@@ -6,4 +6,6 @@
 - Create a cloudbuild file to CI process.
 - Create a trigger in GCP to read the cloudbuild file always when a push is made to any branch.
 
-
+# Start application
+- Run the command: <b>```docker-compose up```</b>
+- Go to your browser and put http://localhost:8000
