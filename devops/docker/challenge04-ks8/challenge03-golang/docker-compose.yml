@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    container_name: app
+    environment: 
+      - CGO_ENABLED=0
+    ports: 
+      - "8000:8000"
+    networks:
+      - app-network
+
+networks: 
+  app-network:
+    driver: bridge
