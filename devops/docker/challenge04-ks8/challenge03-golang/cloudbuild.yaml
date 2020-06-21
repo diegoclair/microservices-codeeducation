@@ -1,0 +1,27 @@
+steps:
+  # While this step isn’t actually required, I find it useful to output your version of Go within CI. 
+  # If your pipeline breaks suddenly or if a new issue comes up, you can check the version mentioned in the logs and see if it’s changed. 
+  # This can give you a good starting point to troubleshoot.
+  - id: go_version
+    name: 'gcr.io/cloud-builders/go'
+    args: ['version']
+    env: ['GOPATH=.']
+
+  - id: go_test
+    name: 'gcr.io/cloud-builders/go'
+    args: ['test','./devops/docker/challenge04-ks8/challenge03-golang']
+    env: ['GOPATH=.','CGO_ENABLED=0']
+
+  - id: go_build
+    name: 'gcr.io/cloud-builders/go'
+    args: ['build', '-o', './devops/docker/challenge04-ks8/challenge03-golang', './devops/docker/challenge04-ks8/challenge03-golang']
+    env: ['GOPATH=.']
+
+  - id: docker_build
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['build','-t','gcr.io/$PROJECT_ID/challenge04-03:latest', './devops/docker/challenge04-ks8/challenge03-golang/']
+
+
+# here the cloud build do the push automatically
+images:
+  - 'gcr.io/$PROJECT_ID/challenge04-03:latest'
