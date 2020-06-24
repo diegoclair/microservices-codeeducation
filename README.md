@@ -100,5 +100,5 @@ In this repo, you'll find the challenges that I did during the course.
 * [Repo challenge 04](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge04-ks8) - Kubernetes ✅: 
   - [Challenge 01](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge04-ks8/challenge01-nginx) Create a kubernets service with nginx image that returns the message ```Code.education Rocks.```
   - [Challenge 02](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge04-ks8/challenge02-mysql) - Kubernetes with mysql, using persistent volume and secret with environment variables.
-  - [Challenge 03](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge04-ks8/golang) Create a webserver that returns a bold string ```Code.education Rocks.``` with test, CI process and kubernetes.
-* [Repo challenge 05](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge05-Go-hpa) - Kubernetes hpa (Horizontal Pod Autoscaler)
+  - [Challenge 03](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge04-ks8/challenge03-golang) Create a webserver that returns a bold string ```Code.education Rocks.``` with test, CI process and kubernetes.
+* [Repo challenge 05](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge05-Go-hpa) - Kubernetes hpa (Horizontal Pod Autoscaler) ✅
