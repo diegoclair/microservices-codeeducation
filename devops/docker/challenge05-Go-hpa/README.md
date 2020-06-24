@@ -1,2 +1,2 @@
 # Docker image from DockerHub
-- [Clique aqui](https://hub.docker.com/repository/docker/diegoclair/go-hpa)
+- To get the docker image [click here](https://hub.docker.com/repository/docker/diegoclair/go-hpa)
