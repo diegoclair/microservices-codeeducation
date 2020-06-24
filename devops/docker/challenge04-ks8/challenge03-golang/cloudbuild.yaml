@@ -10,7 +10,7 @@ steps:
   - id: go_test
     name: 'gcr.io/cloud-builders/go'
     args: ['test','./devops/docker/challenge04-ks8/challenge03-golang']
-    env: ['GOPATH=.','CGO_ENABLED=0']
+    env: ['GOPATH=.','CGO_ENABLED=0', 'GOOS=linux', 'GOARCH=amd64']
 
   - id: go_build
     name: 'gcr.io/cloud-builders/go'
