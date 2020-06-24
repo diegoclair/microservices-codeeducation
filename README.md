@@ -78,12 +78,12 @@ In development 🚧
 ## 🚧 Extras 
 In this repo, you'll find the challenges that I did during the course.  
 
-* [Repo challenge 01](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge01-laravel) - Docker 🐳:
+* [Repo challenge 01](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge01-laravel) - Docker 🐳✅:
   - Challenges:
     - Publishing a Laravel image to dockerhub
     - Using Dockerize template to define environment variables for nginx image in docker-compose.yaml
     
-* [Repo challenge 02](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge02-golang) - Docker 🐳:
+* [Repo challenge 02](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge02-golang) - Docker 🐳✅:
   - Challenges:
     - Publishing a Golang image to dockerhub that print the text: 'Code.education Rocks!'
     
@@ -92,11 +92,13 @@ In this repo, you'll find the challenges that I did during the course.
     - [Repo](https://github.com/diegoclair/ci-gcp): Create a docker-compose image and push to GCP Container Register.
     - Implement CI process at [Laravel Repo](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge01-laravel) to each pull request created and to any branch.
     
-* [Repo challenge 03](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge03-CI-Go) -  CI an Docker 🐳:
+* [Repo challenge 03](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge03-CI-Go) -  CI an Docker 🐳✅:
   - Challenges:
     - Create a project in Go with a function <b>soma</b> and add a test for it.
     - Implement the CI process that will execute the unit test, generate and push the image to GCP Container Register and with trigger with github repo to start CI process when execute any push to any branch.
     
-* [Repo challenge 04](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge04-ks8) - Kubernetes: 
+* [Repo challenge 04](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge04-ks8) - Kubernetes ✅: 
   - [Challenge 01](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge04-ks8/challenge01-nginx) Create a kubernets service with nginx image that returns the message ```Code.education Rocks.```
-  - In progress 🚧
+  - [Challenge 02](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge04-ks8/challenge02-mysql) - Kubernetes with mysql, using persistent volume and secret with environment variables.
+  - [Challenge 03](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge04-ks8/golang) Create a webserver that returns a bold string ```Code.education Rocks.``` with test, CI process and kubernetes.
+* [Repo challenge 05](https://github.com/diegoclair/microservices-codeeducation/tree/master/devops/docker/challenge05-Go-hpa) - Kubernetes hpa (Horizontal Pod Autoscaler)
