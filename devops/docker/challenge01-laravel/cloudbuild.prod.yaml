@@ -44,4 +44,4 @@ steps:
     - '-c'
     - |
       sed 's#img-app-deployment#gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA#g' .devops/docker/challenge01-laravel/kubernetes/app/deployment.yaml > .devops/docker/challenge01-laravel/kubernetes/app/deployment-new.yaml;
-      cat .devops/docker/challenge01-laravel/kubernetes/app/deployment-new.yaml
+      cat devops/docker/challenge01-laravel/kubernetes/app/deployment-new.yaml
