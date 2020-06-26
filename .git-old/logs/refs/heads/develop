@@ -1,0 +1,3 @@
+0000000000000000000000000000000000000000 1bf147c9db24c5961aa04aa7ca74fa3331756a77 Diego Clair <diego93rodrigues@gmail.com> 1590965612 -0300	branch: Created from HEAD
+1bf147c9db24c5961aa04aa7ca74fa3331756a77 a043900cfafe2b2a775ca69518379916c738f46e Diego Clair <diego93rodrigues@gmail.com> 1590965721 -0300	commit: test gpc codebuild extension for github
+a043900cfafe2b2a775ca69518379916c738f46e db49e6f3cdb86367c88153ac3f26cd1a882cbbaa Diego Clair <diego93rodrigues@gmail.com> 1590966622 -0300	commit: Remove docker ps that was just to see the containers running
