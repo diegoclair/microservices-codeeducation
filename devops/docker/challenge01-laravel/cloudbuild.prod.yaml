@@ -43,5 +43,15 @@ steps:
   args: 
     - '-c'
     - |
-      sed 's#img-app-deployment#gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA#g' .devops/docker/challenge01-laravel/kubernetes/app/deployment.yaml > .devops/docker/challenge01-laravel/kubernetes/app/deployment-new.yaml;
+      sed 's#img-app-deployment#gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA#g' devops/docker/challenge01-laravel/kubernetes/app/deployment.yaml > devops/docker/challenge01-laravel/kubernetes/app/deployment-new.yaml;
       cat devops/docker/challenge01-laravel/kubernetes/app/deployment-new.yaml
+
+- id: "Deploying kubernetes"
+  name: 'gcr.io/cloud-builders/kubectl'
+  args: 
+    - 'apply'
+    - '-f'
+    - 'devops/docker/challenge01-laravel/kubernetes/app/deployment-new.yaml'
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=my-first-cluster-1'
