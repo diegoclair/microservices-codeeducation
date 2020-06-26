@@ -31,8 +31,17 @@ steps:
 
 - id: "Building image from Dockerfile.prod"
   name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA','-f','Dockerfile.prod','./devops/docker/challenge01-laravel']
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA','-f','./devops/docker/challenge01-laravel/Dockerfile.prod','./devops/docker/challenge01-laravel']
 
 - id: "Pushing image"
   name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA'] 
+  args: ['push', 'gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA']
+
+- id: "Adjusting deployenmt file - Kubernetes"
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: '/bin/sh'
+  args: 
+    - '-c'
+    - |
+      sed 's#img-app-deployment#gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA#g' .devops/docker/challenge01-laravel/kubernetes/app/deployment.yaml > .devops/docker/challenge01-laravel/kubernetes/app/deployment-new.yaml;
+      cat .devops/docker/challenge01-laravel/kubernetes/app/deployment-new.yaml
