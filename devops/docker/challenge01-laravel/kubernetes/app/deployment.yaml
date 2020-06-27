@@ -16,6 +16,7 @@ spec:
       containers:
       - name: app
         image: img-app-deployment
+        command: ['/bin/sh','-c','ln -s /var/www /usr/share/nginx; php-fpm;']
         ports:
         - containerPort: 80
 
