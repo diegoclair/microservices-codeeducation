@@ -10,6 +10,12 @@
 - Create a trigger in GCP to read the cloudbuild file always when a push is made to any branch.
 - Create kubernetes type LoadBalance service to access on the browser
 
+## Challenge Continuous Delivery(CD) description
+- Create kubernetes files to do the deploy to it
+- Use the CI process (cloudbuild.yaml) for all branchs, except for master
+- Use CI&CD (cloudbuild.prod.yaml) for branch master
+- Configure this rules on GCP Cloud
+
 # Start application
 - Run the command: <b>```docker-compose up```</b>
 - Go to your browser and put http://localhost:8000

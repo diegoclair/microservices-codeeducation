@@ -1,0 +1,45 @@
+steps:
+  # While this step isn’t actually required, I find it useful to output your version of Go within CI. 
+  # If your pipeline breaks suddenly or if a new issue comes up, you can check the version mentioned in the logs and see if it’s changed. 
+  # This can give you a good starting point to troubleshoot.
+  - id: go_version
+    name: 'gcr.io/cloud-builders/go'
+    args: ['version']
+    env: ['GOPATH=.']
+
+  - id: go_test
+    name: 'gcr.io/cloud-builders/go'
+    args: ['test','./devops/docker/challenge04-ks8/challenge03-golang']
+    env: ['GOPATH=.','CGO_ENABLED=0', 'GOOS=linux', 'GOARCH=amd64']
+
+  - id: go_build
+    name: 'gcr.io/cloud-builders/go'
+    args: ['build', '-o', './devops/docker/challenge04-ks8/challenge03-golang', './devops/docker/challenge04-ks8/challenge03-golang']
+    env: ['GOPATH=.']
+
+  - id: docker_build
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['build','-t','gcr.io/$PROJECT_ID/challenge04-03:$SHORT_SHA', './devops/docker/challenge04-ks8/challenge03-golang/']
+
+  - id: "Pushing image"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/challenge04-03:$SHORT_SHA']
+
+  - id: "Adjusting deployenmt file - Kubernetes"
+    name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: '/bin/sh'
+    args: 
+      - '-c'
+      - |
+        sed 's#img-app-deployment#gcr.io/$PROJECT_ID/challenge04-03:$SHORT_SHA#g' devops/docker/challenge04-ks8/challenge03-golang/kubernetes/app/deployment.yaml > devops/docker/challenge04-ks8/challenge03-golang/kubernetes/app/deployment-new.yaml;
+        cat devops/docker/challenge04-ks8/challenge03-golang/kubernetes/app/deployment-new.yaml
+
+  - id: "Deploying kubernetes"
+    name: 'gcr.io/cloud-builders/kubectl'
+    args: 
+      - 'apply'
+      - '-f'
+      - 'devops/docker/challenge04-ks8/challenge03-golang/kubernetes/app/deployment-new.yaml'
+    env:
+    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=my-first-cluster-1'
