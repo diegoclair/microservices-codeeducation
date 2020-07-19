@@ -18,7 +18,7 @@ func main() {
 	server := server.InitServer(svc)
 	logger.Info("About to start the application...")
 
-	if err := server.Run(":3000"); err != nil {
+	if err := server.Run(":5000"); err != nil {
 		panic(err)
 	}
 }
