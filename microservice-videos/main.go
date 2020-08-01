@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	logger.Info("Reading the intial configs...")
+	logger.Info("Reading the initial configs...")
 
 	db, err := data.Connect()
 	if err != nil {

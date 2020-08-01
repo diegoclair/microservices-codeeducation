@@ -13,10 +13,10 @@ func FakeData(migrationsList []darwin.Migration, howManyLines int) []darwin.Migr
 	var values string
 	for i := init; i < size; i++ {
 		if (i + 1) == size {
-			values += `('teste ` + strconv.Itoa(i) + `','description ` + strconv.Itoa(i) + `');`
+			values += `('test ` + strconv.Itoa(i) + `','description ` + strconv.Itoa(i) + `');`
 			continue
 		}
-		values += `('teste` + strconv.Itoa(i) + `','description ` + strconv.Itoa(i) + `'), `
+		values += `('test ` + strconv.Itoa(i) + `','description ` + strconv.Itoa(i) + `'), `
 	}
 	var (
 		migration = darwin.Migration{

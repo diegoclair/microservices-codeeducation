@@ -10,7 +10,7 @@ var (
 			Description: "Creating table tab_categories",
 			Script: `CREATE TABLE IF NOT EXISTS tab_categories (
 				id INT AUTO_INCREMENT,
-				name VARCHAR(500) NOT NULL,
+				name VARCHAR(300) NOT NULL,
 				description VARCHAR(8000) NULL,
 				active TINYINT(1) NOT NULL DEFAULT 1,
 				created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

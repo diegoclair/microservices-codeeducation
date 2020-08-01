@@ -18,7 +18,7 @@ type DBManager struct {
 	db *sql.DB
 }
 
-//Instance retunrs an instance of a RepoManager
+//Instance returns an instance of a RepoManager
 func Instance() (contract.RepoManager, error) {
 	cfg := config.GetDBConfig()
 
