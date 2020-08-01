@@ -6,6 +6,7 @@ import (
 
 	"github.com/GuiaBolso/darwin"
 	"github.com/diegoclair/go_utils-lib/logger"
+	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/data/factory"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/data/migrations"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/infra/config"
@@ -32,12 +33,12 @@ func Instance() (contract.RepoManager, error) {
 		return nil, err
 	}
 
-	err = mysql.SetLogger(logger.GetLogger())
+	err = db.Ping()
 	if err != nil {
 		return nil, err
 	}
 
-	err = db.Ping()
+	err = mysql.SetLogger(logger.GetLogger())
 	if err != nil {
 		return nil, err
 	}
@@ -47,8 +48,11 @@ func Instance() (contract.RepoManager, error) {
 	logger.Info("Running the migrations")
 	driver := darwin.NewGenericDriver(db, darwin.MySQLDialect{})
 
-	d := darwin.New(driver, migrations.Migrations, nil)
+	migrationsList := migrations.Migrations
 
+	fakedata := factory.FakeData(migrationsList, 100)
+
+	d := darwin.New(driver, fakedata, nil)
 	err = d.Migrate()
 	if err != nil {
 		return nil, err

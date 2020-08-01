@@ -11,40 +11,42 @@ services:
          WAIT_SLEEP_INTERVAL: 10
          WAIT_HOST_CONNECT_TIMEOUT: 30
       ports:
-         - "5000:5000"
+         - "6000:6000"
       depends_on:
          - db
          - redis
       networks:
          - app-network
 
-   # nginx:
-   #    build: .docker/nginx
-   #    container_name: micro-videos-nginx
-   #    restart: always
-   #    tty: true
-   #    ports:
-   #       - "8000:80"
-   #    volumes:
-   #       - .:/var/www
-   #    networks:
-   #       - app-network
-   #    depends_on:
-   #       - app
+   nginx:
+      build: .docker/nginx
+      container_name: micro-videos-nginx
+      restart: always
+      tty: true
+      ports:
+         - "8000:80"
+      volumes:
+         - .:/var/www
+      networks:
+         - app-network
+      depends_on:
+         - app
 
    db:
       build: .docker/mysql
       container_name: micro-videos-db
+      command: --innodb-use-native-aio=0
       restart: always
       tty: true
       ports:
-         - "33006:3306"
+         - 3306:3306
       volumes:
          - ./.docker/dbdata:/var/lib/mysql
       environment:
-         - MYSQL_DATABASE=code_micro_videos
          - MYSQL_ROOT_PASSWORD=root
+         - MYSQL_DATABASE=code_micro_videos
          - MYSQL_USER=root
+         - MYSQL_PASSWORD=root
       networks:
          - app-network
 

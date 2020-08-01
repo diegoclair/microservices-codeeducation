@@ -7,24 +7,18 @@ var (
 	Migrations = []darwin.Migration{
 		{
 			Version:     1,
-			Description: "Creating table users",
-			Script: `CREATE TABLE IF NOT EXISTS users (
+			Description: "Creating table tab_categories",
+			Script: `CREATE TABLE IF NOT EXISTS tab_categories (
 				id INT AUTO_INCREMENT,
-				first_name VARCHAR(30) NOT NULL,
-				last_name VARCHAR(30) NOT NULL,
-				email VARCHAR(50) NOT NULL,
-				password VARCHAR(100) NOT NULL,
-				created_at TIMESTAMP,
+				name VARCHAR(500) NOT NULL,
+				description VARCHAR(8000) NULL,
+				active TINYINT(1) NOT NULL DEFAULT 1,
+				created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
 				PRIMARY KEY (id),
-				UNIQUE INDEX ID_UNIQUE (id ASC),
-				UNIQUE INDEX EMAIL_UNIQUE (email ASC)
-			) ENGINE=InnoDB CHARACTER SET=utf8;`,
-		},
-		{
-			Version:     2,
-			Description: "Adding column status to table users",
-			Script:      "ALTER TABLE users ADD COLUMN status VARCHAR(30) NOT NULL DEFAULT 'active' AFTER password;",
+				UNIQUE INDEX ID_UNIQUE (id ASC)
+			) ENGINE=InnoDB CHARACTER SET=utf8;
+			`,
 		},
 	}
 )
