@@ -70,13 +70,13 @@ func (s *Controller) handleCreateCategory(c *gin.Context) {
 		return
 	}
 
-	err := s.categoryService.CreateCategory(category)
+	category, err := s.categoryService.CreateCategory(category)
 	if err != nil {
 		c.JSON(err.StatusCode(), err)
 		return
 	}
 
-	c.Writer.WriteHeader(http.StatusCreated)
+	c.JSON(http.StatusCreated, category)
 }
 
 func (s *Controller) handleUpdateCategoryByID(c *gin.Context) {
@@ -87,7 +87,15 @@ func (s *Controller) handleUpdateCategoryByID(c *gin.Context) {
 		return
 	}
 
-	err = s.categoryService.UpdateCategoryByID(id)
+	var category entity.Category
+	jsonErr := c.ShouldBindJSON(&category)
+	if jsonErr != nil {
+		err := resterrors.NewBadRequestError("Invalid json body")
+		c.JSON(err.StatusCode(), err)
+		return
+	}
+
+	err = s.categoryService.UpdateCategoryByID(id, category)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
 		return

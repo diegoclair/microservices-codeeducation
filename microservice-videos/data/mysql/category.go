@@ -111,12 +111,65 @@ func (r *categoryRepo) GetCategoryByID(id int64) (category entity.Category, rest
 	return category, nil
 }
 
-func (r *categoryRepo) CreateCategory(category entity.Category) resterrors.RestErr {
+func (r *categoryRepo) CreateCategory(category entity.Category) (entity.Category, resterrors.RestErr) {
 
-	return nil
+	query := `
+		INSERT INTO tab_categories 
+				(name, description) 
+		VALUES	(?, ?);
+		`
+
+	stmt, err := r.db.Prepare(query)
+	if err != nil {
+		errorCode := "Error 0001 - "
+		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in CreateCategory: ", errorCode), err)
+		return category, resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
+	}
+	defer stmt.Close()
+
+	insertResult, err := stmt.Exec(category.Name, category.Description)
+	if err != nil {
+		errorCode := "Error 0002 - "
+		logger.Error(fmt.Sprintf("%sError when trying to execute Query in CreateCategory: ", errorCode), err)
+		return category, mysqlutils.HandleMySQLError(err)
+	}
+
+	categoryID, err := insertResult.LastInsertId()
+	if err != nil {
+		errorCode := "Error 0003 - "
+		logger.Error(fmt.Sprintf("%sError when trying to get LastInsertId in CreateCategory: ", errorCode), err)
+		return category, mysqlutils.HandleMySQLError(err)
+	}
+
+	category.ID = categoryID
+
+	return category, nil
 }
 
-func (r *categoryRepo) UpdateCategoryByID(id int64) resterrors.RestErr {
+func (r *categoryRepo) UpdateCategoryByID(id int64, category entity.Category) resterrors.RestErr {
+
+	query := `
+		UPDATE tab_categories 
+			SET name 		= ?, 
+				description	= ?
+
+		WHERE 	id 			= ?;
+		`
+
+	stmt, err := r.db.Prepare(query)
+	if err != nil {
+		errorCode := "Error 0001 - "
+		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in CreateCategory: ", errorCode), err)
+		return resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(category.Name, category.Description, id)
+	if err != nil {
+		errorCode := "Error 0002 - "
+		logger.Error(fmt.Sprintf("%sError when trying to execute Query in CreateCategory: ", errorCode), err)
+		return mysqlutils.HandleMySQLError(err)
+	}
 
 	return nil
 }
