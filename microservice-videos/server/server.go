@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type controller struct {
+type routes struct {
 	categoryController *categoryroute.Controller
 }
 
@@ -15,13 +15,15 @@ func InitServer(svc *service.Service) *gin.Engine {
 	svm := service.NewServiceManager()
 	srv := gin.Default()
 
-	return setupRoutes(srv, &controller{
+	return setupRoutes(srv, &routes{
 		categoryController: categoryroute.NewController(svm.CategoryService(svc)),
 	})
 }
 
 //setupRoutes - Register and instantiate the routes
-func setupRoutes(srv *gin.Engine, s *controller) *gin.Engine {
+func setupRoutes(srv *gin.Engine, r *routes) *gin.Engine {
+
+	categoryroute.NewRouter(r.categoryController, srv).RegisterRoutes()
 
 	return srv
 }

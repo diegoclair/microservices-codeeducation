@@ -20,5 +20,6 @@ func NewRouter(ctrl *Controller, router *gin.Engine) *CategoriesRouter {
 
 //RegisterRoutes is a routers map of ping requests
 func (r *CategoriesRouter) RegisterRoutes() {
-	r.router.GET("/ping", r.ctrl.handlePing)
+	r.router.GET("/api/categories", r.ctrl.handleGetCategories)
+	r.router.GET("/api/categories/:category_id", r.ctrl.handleGetCategoryByID)
 }

@@ -1,6 +1,10 @@
 package service
 
-import "github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
+import (
+	"github.com/diegoclair/go_utils-lib/resterrors"
+	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
+	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/entity"
+)
 
 type categoryService struct {
 	svc *Service
@@ -11,4 +15,14 @@ func newCategoryService(svc *Service) contract.CategoryService {
 	return &categoryService{
 		svc: svc,
 	}
+}
+
+func (s *categoryService) GetCategories() ([]entity.Category, resterrors.RestErr) {
+
+	return s.svc.db.Category().GetCategories()
+}
+
+func (s *categoryService) GetCategoryByID(id int64) (entity.Category, resterrors.RestErr) {
+
+	return s.svc.db.Category().GetCategoryByID(id)
 }
