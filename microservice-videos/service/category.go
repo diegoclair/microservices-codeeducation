@@ -26,3 +26,13 @@ func (s *categoryService) GetCategoryByID(id int64) (entity.Category, resterrors
 
 	return s.svc.db.Category().GetCategoryByID(id)
 }
+
+func (s *categoryService) UpdateCategoryByID(id int64) resterrors.RestErr {
+
+	return s.svc.db.Category().UpdateCategoryByID(id)
+}
+
+func (s *categoryService) CreateCategory(category entity.Category) resterrors.RestErr {
+
+	return s.svc.db.Category().CreateCategory(category)
+}

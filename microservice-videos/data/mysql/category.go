@@ -21,8 +21,8 @@ func newCategoryRepo(db *sql.DB) *categoryRepo {
 	}
 }
 
-//GetCategories - return a list of categories
-func (s *categoryRepo) GetCategories() (categories []entity.Category, restErr resterrors.RestErr) {
+//GetCategories - return a list of all categories
+func (r *categoryRepo) GetCategories() (categories []entity.Category, restErr resterrors.RestErr) {
 
 	query := `
 		SELECT 	tc.id,
@@ -32,7 +32,7 @@ func (s *categoryRepo) GetCategories() (categories []entity.Category, restErr re
 
 		FROM 	tab_categories 		tc;`
 
-	stmt, err := s.db.Prepare(query)
+	stmt, err := r.db.Prepare(query)
 	if err != nil {
 		errorCode := "Error 0001 - "
 		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in GetCategories: ", errorCode), err)
@@ -75,8 +75,7 @@ func (s *categoryRepo) GetCategories() (categories []entity.Category, restErr re
 	return categories, nil
 }
 
-//GetCategoryByID - get a category by ID
-func (s *categoryRepo) GetCategoryByID(id int64) (category entity.Category, restErr resterrors.RestErr) {
+func (r *categoryRepo) GetCategoryByID(id int64) (category entity.Category, restErr resterrors.RestErr) {
 
 	query := `
 		SELECT 	tc.id,
@@ -87,7 +86,7 @@ func (s *categoryRepo) GetCategoryByID(id int64) (category entity.Category, rest
 		FROM 	tab_categories 	tc
 		WHERE 	tc.id 			= ?;`
 
-	stmt, err := s.db.Prepare(query)
+	stmt, err := r.db.Prepare(query)
 	if err != nil {
 		errorCode := "Error 0001: "
 		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in GetCategoryByID", errorCode), err)
@@ -110,4 +109,14 @@ func (s *categoryRepo) GetCategoryByID(id int64) (category entity.Category, rest
 	}
 
 	return category, nil
+}
+
+func (r *categoryRepo) UpdateCategoryByID(id int64) resterrors.RestErr {
+
+	return nil
+}
+
+func (r *categoryRepo) CreateCategory(category entity.Category) resterrors.RestErr {
+
+	return nil
 }

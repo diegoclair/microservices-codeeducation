@@ -4,7 +4,9 @@ import (
 	"net/http"
 	"sync"
 
+	"github.com/diegoclair/go_utils-lib/resterrors"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
+	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/entity"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/utils/routeutils"
 	"github.com/gin-gonic/gin"
 )
@@ -44,15 +46,52 @@ func (s *Controller) handleGetCategoryByID(c *gin.Context) {
 
 	id, err := routeutils.GetAndValidateIntParam(c, "category_id", false)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+		c.JSON(err.StatusCode(), err)
 		return
 	}
 
 	categories, err := s.categoryService.GetCategoryByID(id)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		c.JSON(err.StatusCode(), err)
 		return
 	}
 
 	c.JSON(http.StatusOK, categories)
+}
+
+func (s *Controller) handleCreateCategory(c *gin.Context) {
+
+	var category entity.Category
+
+	jsonErr := c.ShouldBindJSON(&category)
+	if jsonErr != nil {
+		err := resterrors.NewBadRequestError("Invalid json body")
+		c.JSON(err.StatusCode(), err)
+		return
+	}
+
+	err := s.categoryService.CreateCategory(category)
+	if err != nil {
+		c.JSON(err.StatusCode(), err)
+		return
+	}
+
+	c.Writer.WriteHeader(http.StatusCreated)
+}
+
+func (s *Controller) handleUpdateCategoryByID(c *gin.Context) {
+
+	id, err := routeutils.GetAndValidateIntParam(c, "category_id", false)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	err = s.categoryService.UpdateCategoryByID(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	c.Writer.WriteHeader(http.StatusNoContent)
 }
