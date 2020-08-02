@@ -12,6 +12,8 @@ services:
          WAIT_HOST_CONNECT_TIMEOUT: 30
       ports:
          - "6000:6000"
+      volumes:
+         - ./:/app   #use this volume to set the live reload
       depends_on:
          - db
          - redis

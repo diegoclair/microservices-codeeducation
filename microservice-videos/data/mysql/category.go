@@ -111,12 +111,12 @@ func (r *categoryRepo) GetCategoryByID(id int64) (category entity.Category, rest
 	return category, nil
 }
 
-func (r *categoryRepo) UpdateCategoryByID(id int64) resterrors.RestErr {
+func (r *categoryRepo) CreateCategory(category entity.Category) resterrors.RestErr {
 
 	return nil
 }
 
-func (r *categoryRepo) CreateCategory(category entity.Category) resterrors.RestErr {
+func (r *categoryRepo) UpdateCategoryByID(id int64) resterrors.RestErr {
 
 	return nil
 }

@@ -22,6 +22,6 @@ func NewRouter(ctrl *Controller, router *gin.Engine) *CategoriesRouter {
 func (r *CategoriesRouter) RegisterRoutes() {
 	r.router.GET("/api/categories", r.ctrl.handleGetCategories)
 	r.router.GET("/api/categories/:category_id", r.ctrl.handleGetCategoryByID)
-	r.router.POST("/api/categories/:category_id", r.ctrl.handleCreateCategory)
+	r.router.POST("/api/categories", r.ctrl.handleCreateCategory)
 	r.router.PUT("/api/categories/:category_id", r.ctrl.handleUpdateCategoryByID)
 }
