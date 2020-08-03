@@ -22,7 +22,7 @@ func newCategoryRepo(db *sql.DB) *categoryRepo {
 }
 
 //GetCategories - return a list of all categories
-func (r *categoryRepo) GetCategories() (categories []entity.Category, restErr resterrors.RestErr) {
+func (r *categoryRepo) GetCategories() (categories []*entity.Category, restErr resterrors.RestErr) {
 
 	query := `
 		SELECT 	tc.id,
@@ -65,7 +65,7 @@ func (r *categoryRepo) GetCategories() (categories []entity.Category, restErr re
 			return nil, resterrors.NewRestError(fmt.Sprintf("%s", errorCode)+errMessage.Message(), errMessage.StatusCode(), errMessage.Error())
 		}
 
-		categories = append(categories, category)
+		categories = append(categories, &category)
 	}
 
 	if len(categories) == 0 {
@@ -75,7 +75,7 @@ func (r *categoryRepo) GetCategories() (categories []entity.Category, restErr re
 	return categories, nil
 }
 
-func (r *categoryRepo) GetCategoryByID(id int64) (category entity.Category, restErr resterrors.RestErr) {
+func (r *categoryRepo) GetCategoryByID(id int64) (*entity.Category, resterrors.RestErr) {
 
 	query := `
 		SELECT 	tc.id,
@@ -90,11 +90,12 @@ func (r *categoryRepo) GetCategoryByID(id int64) (category entity.Category, rest
 	if err != nil {
 		errorCode := "Error 0001: "
 		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in GetCategoryByID", errorCode), err)
-		return category, resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
+		return nil, resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
 	}
 	defer stmt.Close()
 
 	result := stmt.QueryRow(id)
+	var category entity.Category
 	err = result.Scan(
 		&category.ID,
 		&category.Name,
@@ -105,13 +106,13 @@ func (r *categoryRepo) GetCategoryByID(id int64) (category entity.Category, rest
 	if err != nil {
 		errorCode := "Error 0002: "
 		logger.Error(fmt.Sprintf("%sError when trying to execute QueryRow in GetByID", errorCode), err)
-		return category, mysqlutils.HandleMySQLError(err)
+		return nil, mysqlutils.HandleMySQLError(err)
 	}
 
-	return category, nil
+	return &category, nil
 }
 
-func (r *categoryRepo) CreateCategory(category entity.Category) (entity.Category, resterrors.RestErr) {
+func (r *categoryRepo) CreateCategory(category entity.Category) (*entity.Category, resterrors.RestErr) {
 
 	query := `
 		INSERT INTO tab_categories 
@@ -123,7 +124,7 @@ func (r *categoryRepo) CreateCategory(category entity.Category) (entity.Category
 	if err != nil {
 		errorCode := "Error 0001 - "
 		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in CreateCategory: ", errorCode), err)
-		return category, resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
+		return nil, resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
 	}
 	defer stmt.Close()
 
@@ -131,19 +132,19 @@ func (r *categoryRepo) CreateCategory(category entity.Category) (entity.Category
 	if err != nil {
 		errorCode := "Error 0002 - "
 		logger.Error(fmt.Sprintf("%sError when trying to execute Query in CreateCategory: ", errorCode), err)
-		return category, mysqlutils.HandleMySQLError(err)
+		return nil, mysqlutils.HandleMySQLError(err)
 	}
 
 	categoryID, err := insertResult.LastInsertId()
 	if err != nil {
 		errorCode := "Error 0003 - "
 		logger.Error(fmt.Sprintf("%sError when trying to get LastInsertId in CreateCategory: ", errorCode), err)
-		return category, mysqlutils.HandleMySQLError(err)
+		return nil, mysqlutils.HandleMySQLError(err)
 	}
 
 	category.ID = categoryID
 
-	return category, nil
+	return &category, nil
 }
 
 func (r *categoryRepo) UpdateCategoryByID(id int64, category entity.Category) resterrors.RestErr {

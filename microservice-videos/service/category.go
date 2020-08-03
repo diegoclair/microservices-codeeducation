@@ -17,17 +17,22 @@ func newCategoryService(svc *Service) contract.CategoryService {
 	}
 }
 
-func (s *categoryService) GetCategories() ([]entity.Category, resterrors.RestErr) {
+func (s *categoryService) GetCategories() ([]*entity.Category, resterrors.RestErr) {
 
 	return s.svc.db.Category().GetCategories()
 }
 
-func (s *categoryService) GetCategoryByID(id int64) (entity.Category, resterrors.RestErr) {
+func (s *categoryService) GetCategoryByID(id int64) (*entity.Category, resterrors.RestErr) {
 
 	return s.svc.db.Category().GetCategoryByID(id)
 }
 
-func (s *categoryService) CreateCategory(category entity.Category) (entity.Category, resterrors.RestErr) {
+func (s *categoryService) CreateCategory(category entity.Category) (*entity.Category, resterrors.RestErr) {
+
+	err := category.Validate()
+	if err != nil {
+		return nil, err
+	}
 
 	return s.svc.db.Category().CreateCategory(category)
 }

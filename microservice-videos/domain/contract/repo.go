@@ -12,8 +12,8 @@ type RepoManager interface {
 
 // CategoryRepo data set
 type CategoryRepo interface {
-	GetCategories() ([]entity.Category, resterrors.RestErr)
-	GetCategoryByID(id int64) (entity.Category, resterrors.RestErr)
-	CreateCategory(category entity.Category) (entity.Category, resterrors.RestErr)
+	GetCategories() ([]*entity.Category, resterrors.RestErr)
+	GetCategoryByID(id int64) (*entity.Category, resterrors.RestErr)
+	CreateCategory(category entity.Category) (*entity.Category, resterrors.RestErr)
 	UpdateCategoryByID(id int64, category entity.Category) resterrors.RestErr
 }

@@ -35,7 +35,7 @@ func (s *Controller) handleGetCategories(c *gin.Context) {
 
 	categories, err := s.categoryService.GetCategories()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		c.JSON(err.StatusCode(), err)
 		return
 	}
 
@@ -61,16 +61,16 @@ func (s *Controller) handleGetCategoryByID(c *gin.Context) {
 
 func (s *Controller) handleCreateCategory(c *gin.Context) {
 
-	var category entity.Category
+	var input entity.Category
 
-	jsonErr := c.ShouldBindJSON(&category)
+	jsonErr := c.ShouldBindJSON(&input)
 	if jsonErr != nil {
 		err := resterrors.NewBadRequestError("Invalid json body")
 		c.JSON(err.StatusCode(), err)
 		return
 	}
 
-	category, err := s.categoryService.CreateCategory(category)
+	category, err := s.categoryService.CreateCategory(input)
 	if err != nil {
 		c.JSON(err.StatusCode(), err)
 		return
@@ -83,7 +83,7 @@ func (s *Controller) handleUpdateCategoryByID(c *gin.Context) {
 
 	id, err := routeutils.GetAndValidateIntParam(c, "category_id", false)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+		c.JSON(err.StatusCode(), err)
 		return
 	}
 
@@ -97,7 +97,7 @@ func (s *Controller) handleUpdateCategoryByID(c *gin.Context) {
 
 	err = s.categoryService.UpdateCategoryByID(id, category)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		c.JSON(err.StatusCode(), err)
 		return
 	}
 
