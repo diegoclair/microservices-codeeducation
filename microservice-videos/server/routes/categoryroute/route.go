@@ -24,4 +24,5 @@ func (r *CategoriesRouter) RegisterRoutes() {
 	r.router.GET("/api/categories/:category_id", r.ctrl.handleGetCategoryByID)
 	r.router.POST("/api/categories", r.ctrl.handleCreateCategory)
 	r.router.PUT("/api/categories/:category_id", r.ctrl.handleUpdateCategoryByID)
+	r.router.DELETE("/api/categories/:category_id", r.ctrl.handleDeleteCategoryByID)
 }

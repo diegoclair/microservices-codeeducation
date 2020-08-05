@@ -105,7 +105,7 @@ func (r *categoryRepo) GetCategoryByID(id int64) (*entity.Category, resterrors.R
 
 	if err != nil {
 		errorCode := "Error 0002: "
-		logger.Error(fmt.Sprintf("%sError when trying to execute QueryRow in GetByID", errorCode), err)
+		logger.Error(fmt.Sprintf("%sError when trying to execute QueryRow in GetCategoryByID", errorCode), err)
 		return nil, mysqlutils.HandleMySQLError(err)
 	}
 
@@ -160,7 +160,7 @@ func (r *categoryRepo) UpdateCategoryByID(id int64, category entity.Category) re
 	stmt, err := r.db.Prepare(query)
 	if err != nil {
 		errorCode := "Error 0001 - "
-		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in CreateCategory: ", errorCode), err)
+		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in UpdateCategoryByID: ", errorCode), err)
 		return resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
 	}
 	defer stmt.Close()
@@ -168,7 +168,31 @@ func (r *categoryRepo) UpdateCategoryByID(id int64, category entity.Category) re
 	_, err = stmt.Exec(category.Name, category.Description, id)
 	if err != nil {
 		errorCode := "Error 0002 - "
-		logger.Error(fmt.Sprintf("%sError when trying to execute Query in CreateCategory: ", errorCode), err)
+		logger.Error(fmt.Sprintf("%sError when trying to execute Query in UpdateCategoryByID: ", errorCode), err)
+		return mysqlutils.HandleMySQLError(err)
+	}
+
+	return nil
+}
+
+func (r *categoryRepo) DeleteCategoryByID(id int64) resterrors.RestErr {
+	query := `
+		DELETE FROM tab_categories 
+		WHERE 	id 	= ?;
+	`
+
+	stmt, err := r.db.Prepare(query)
+	if err != nil {
+		errorCode := "Error 0001 - "
+		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in DeleteCategoryByID: ", errorCode), err)
+		return resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(id)
+	if err != nil {
+		errorCode := "Error 0002 - "
+		logger.Error(fmt.Sprintf("%sError when trying to execute Query in DeleteCategoryByID: ", errorCode), err)
 		return mysqlutils.HandleMySQLError(err)
 	}
 

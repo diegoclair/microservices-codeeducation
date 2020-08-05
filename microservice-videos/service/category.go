@@ -39,5 +39,15 @@ func (s *categoryService) CreateCategory(category entity.Category) (*entity.Cate
 
 func (s *categoryService) UpdateCategoryByID(id int64, category entity.Category) resterrors.RestErr {
 
+	err := category.Validate()
+	if err != nil {
+		return err
+	}
+
 	return s.svc.db.Category().UpdateCategoryByID(id, category)
+}
+
+func (s *categoryService) DeleteCategoryByID(id int64) resterrors.RestErr {
+
+	return s.svc.db.Category().DeleteCategoryByID(id)
 }

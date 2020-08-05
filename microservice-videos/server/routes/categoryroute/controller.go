@@ -101,5 +101,22 @@ func (s *Controller) handleUpdateCategoryByID(c *gin.Context) {
 		return
 	}
 
+	c.Writer.WriteHeader(http.StatusOK)
+}
+
+func (s *Controller) handleDeleteCategoryByID(c *gin.Context) {
+
+	id, err := routeutils.GetAndValidateIntParam(c, "category_id", false)
+	if err != nil {
+		c.JSON(err.StatusCode(), err)
+		return
+	}
+
+	err = s.categoryService.DeleteCategoryByID(id)
+	if err != nil {
+		c.JSON(err.StatusCode(), err)
+		return
+	}
+
 	c.Writer.WriteHeader(http.StatusNoContent)
 }
