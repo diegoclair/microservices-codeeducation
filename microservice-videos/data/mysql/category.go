@@ -3,6 +3,7 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/diegoclair/go_utils-lib/logger"
 	"github.com/diegoclair/go_utils-lib/mysqlutils"
@@ -26,16 +27,18 @@ func (r *categoryRepo) GetCategories() (categories []*entity.Category, restErr r
 
 	query := `
 		SELECT 	tc.id,
+				tc.uuid,
 				tc.name,
 				tc.description,
 				tc.active
 
-		FROM 	tab_categories 		tc;`
+		FROM 	tab_categories 	tc
+		WHERE  	tc.deleted_at 	IS NULL;;`
 
 	stmt, err := r.db.Prepare(query)
 	if err != nil {
 		errorCode := "Error 0001 - "
-		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in GetCategories: ", errorCode), err)
+		logger.Error(fmt.Sprintf("%sGetCategories: ", errorCode), err)
 		return nil, resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
 	}
 
@@ -44,7 +47,7 @@ func (r *categoryRepo) GetCategories() (categories []*entity.Category, restErr r
 	rows, err := stmt.Query()
 	if err != nil {
 		errorCode := "Error 0002 - "
-		logger.Error(fmt.Sprintf("%sError when trying to execute Query in GetCategories: ", errorCode), err)
+		logger.Error(fmt.Sprintf("%sGetCategories: ", errorCode), err)
 		return nil, resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
 	}
 	defer rows.Close()
@@ -53,13 +56,14 @@ func (r *categoryRepo) GetCategories() (categories []*entity.Category, restErr r
 		var category entity.Category
 		err = rows.Scan(
 			&category.ID,
+			&category.UUID,
 			&category.Name,
 			&category.Description,
 			&category.Active,
 		)
 		if err != nil {
 			errorCode := "Error 0003 - "
-			logger.Error(fmt.Sprintf("%sError when trying to do For Scan in the Rows GetCategories: ", errorCode), err)
+			logger.Error(fmt.Sprintf("%sGetCategories: ", errorCode), err)
 			errMessage := mysqlutils.HandleMySQLError(err)
 
 			return nil, resterrors.NewRestError(fmt.Sprintf("%s", errorCode)+errMessage.Message(), errMessage.StatusCode(), errMessage.Error())
@@ -79,17 +83,19 @@ func (r *categoryRepo) GetCategoryByID(id int64) (*entity.Category, resterrors.R
 
 	query := `
 		SELECT 	tc.id,
+				tc.uuid,
 				tc.name,
 				tc.description,
 				tc.active
 
 		FROM 	tab_categories 	tc
-		WHERE 	tc.id 			= ?;`
+		WHERE 	tc.id 			= ?
+		  AND 	tc.deleted_at 	IS NULL;`
 
 	stmt, err := r.db.Prepare(query)
 	if err != nil {
 		errorCode := "Error 0001: "
-		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in GetCategoryByID", errorCode), err)
+		logger.Error(fmt.Sprintf("%sGetCategoryByID", errorCode), err)
 		return nil, resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
 	}
 	defer stmt.Close()
@@ -98,6 +104,7 @@ func (r *categoryRepo) GetCategoryByID(id int64) (*entity.Category, resterrors.R
 	var category entity.Category
 	err = result.Scan(
 		&category.ID,
+		&category.UUID,
 		&category.Name,
 		&category.Description,
 		&category.Active,
@@ -105,7 +112,7 @@ func (r *categoryRepo) GetCategoryByID(id int64) (*entity.Category, resterrors.R
 
 	if err != nil {
 		errorCode := "Error 0002: "
-		logger.Error(fmt.Sprintf("%sError when trying to execute QueryRow in GetCategoryByID", errorCode), err)
+		logger.Error(fmt.Sprintf("%sGetCategoryByID", errorCode), err)
 		return nil, mysqlutils.HandleMySQLError(err)
 	}
 
@@ -116,29 +123,29 @@ func (r *categoryRepo) CreateCategory(category entity.Category) (*entity.Categor
 
 	query := `
 		INSERT INTO tab_categories 
-				(name, description) 
-		VALUES	(?, ?);
+				(uuid, name, description) 
+		VALUES	(?, ?, ?);
 		`
 
 	stmt, err := r.db.Prepare(query)
 	if err != nil {
 		errorCode := "Error 0001 - "
-		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in CreateCategory: ", errorCode), err)
+		logger.Error(fmt.Sprintf("%sCreateCategory: ", errorCode), err)
 		return nil, resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
 	}
 	defer stmt.Close()
 
-	insertResult, err := stmt.Exec(category.Name, category.Description)
+	insertResult, err := stmt.Exec(category.UUID, category.Name, category.Description)
 	if err != nil {
 		errorCode := "Error 0002 - "
-		logger.Error(fmt.Sprintf("%sError when trying to execute Query in CreateCategory: ", errorCode), err)
+		logger.Error(fmt.Sprintf("%sCreateCategory: ", errorCode), err)
 		return nil, mysqlutils.HandleMySQLError(err)
 	}
 
 	categoryID, err := insertResult.LastInsertId()
 	if err != nil {
 		errorCode := "Error 0003 - "
-		logger.Error(fmt.Sprintf("%sError when trying to get LastInsertId in CreateCategory: ", errorCode), err)
+		logger.Error(fmt.Sprintf("%sCreateCategory: ", errorCode), err)
 		return nil, mysqlutils.HandleMySQLError(err)
 	}
 
@@ -154,22 +161,29 @@ func (r *categoryRepo) UpdateCategoryByID(id int64, category entity.Category) re
 			SET name 		= ?, 
 				description	= ?
 
-		WHERE 	id 			= ?;
+		WHERE 	uuid 			= ?
+		  AND 	deleted_at 	IS NULL;
 		`
 
 	stmt, err := r.db.Prepare(query)
 	if err != nil {
 		errorCode := "Error 0001 - "
-		logger.Error(fmt.Sprintf("%sError when trying to prepare the query statement in UpdateCategoryByID: ", errorCode), err)
+		logger.Error(fmt.Sprintf("%sUpdateCategoryByID: ", errorCode), err)
 		return resterrors.NewInternalServerError(fmt.Sprintf("%sDatabase error", errorCode))
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(category.Name, category.Description, id)
+	result, err := stmt.Exec(category.Name, category.Description, id)
 	if err != nil {
 		errorCode := "Error 0002 - "
-		logger.Error(fmt.Sprintf("%sError when trying to execute Query in UpdateCategoryByID: ", errorCode), err)
+		logger.Error(fmt.Sprintf("%sUpdateCategoryByID: ", errorCode), err)
 		return mysqlutils.HandleMySQLError(err)
+	}
+
+	rowsAffected, err := result.RowsAffected()
+
+	if rowsAffected == 0 {
+		return resterrors.NewNotFoundError(fmt.Sprintf("No categories found with the parameter id"))
 	}
 
 	return nil
@@ -177,9 +191,11 @@ func (r *categoryRepo) UpdateCategoryByID(id int64, category entity.Category) re
 
 func (r *categoryRepo) DeleteCategoryByID(id int64) resterrors.RestErr {
 	query := `
-		DELETE FROM tab_categories 
-		WHERE 	id 	= ?;
-	`
+		UPDATE tab_categories 
+			SET deleted_at	= ?
+
+		WHERE 	id 			= ?;
+		`
 
 	stmt, err := r.db.Prepare(query)
 	if err != nil {
@@ -189,7 +205,7 @@ func (r *categoryRepo) DeleteCategoryByID(id int64) resterrors.RestErr {
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(id)
+	_, err = stmt.Exec(time.Now(), id)
 	if err != nil {
 		errorCode := "Error 0002 - "
 		logger.Error(fmt.Sprintf("%sError when trying to execute Query in DeleteCategoryByID: ", errorCode), err)

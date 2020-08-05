@@ -10,6 +10,7 @@ import (
 // Category entity data
 type Category struct {
 	ID          int64  `json:"id"`
+	UUID        string `json:"uuid" validate:"required"`
 	Name        string `json:"name" validate:"required,max=3"`
 	Description string `json:"description" validate:"max=8"`
 	Active      bool   `json:"active"`

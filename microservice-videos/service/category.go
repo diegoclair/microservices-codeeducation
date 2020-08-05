@@ -4,6 +4,7 @@ import (
 	"github.com/diegoclair/go_utils-lib/resterrors"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/entity"
+	uuid "github.com/satori/go.uuid"
 )
 
 type categoryService struct {
@@ -28,6 +29,9 @@ func (s *categoryService) GetCategoryByID(id int64) (*entity.Category, resterror
 }
 
 func (s *categoryService) CreateCategory(category entity.Category) (*entity.Category, resterrors.RestErr) {
+
+	categoryUUID := uuid.NewV4().String()
+	category.UUID = categoryUUID
 
 	err := category.Validate()
 	if err != nil {
