@@ -4,10 +4,10 @@ FROM golang:latest
 LABEL maintainer="Rodrigues Diego <diego93rodrigues@gmail.com>"
 
 # Set the current working directory inside the container 
-WORKDIR /
+WORKDIR /app
 
 # Copy the source from the current directory to the working Directory inside the container 
-COPY . .
+COPY . /app
 
 # Add docker-compose-wait tool -------------------
 ENV WAIT_VERSION 2.7.2
@@ -19,5 +19,5 @@ EXPOSE 80
 #This is used to run the application with live reload
 RUN go get github.com/githubnemo/CompileDaemon
 
-CMD /wait && CompileDaemon --build="go build -o myapp ." --command=./myapp
+ENTRYPOINT /wait && CompileDaemon --build="go build -o myapp ." --command=./myapp
 
