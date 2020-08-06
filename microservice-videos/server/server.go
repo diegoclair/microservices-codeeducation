@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/IQ-tech/go-mapper"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/server/routes/categoryroute"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/service"
 	"github.com/gin-gonic/gin"
@@ -12,11 +13,14 @@ type routes struct {
 
 //InitServer to initialize the server
 func InitServer(svc *service.Service) *gin.Engine {
+	mapper := mapper.New()
 	svm := service.NewServiceManager()
 	srv := gin.Default()
 
+	categoryService := svm.CategoryService(svc)
+
 	return setupRoutes(srv, &routes{
-		categoryController: categoryroute.NewController(svm.CategoryService(svc)),
+		categoryController: categoryroute.NewController(categoryService, mapper),
 	})
 }
 

@@ -3,7 +3,10 @@ module github.com/diegoclair/microservices-codeeducation/tree/master/microservic
 go 1.14
 
 require (
+	github.com/DATA-DOG/go-sqlmock v1.4.1 // indirect
 	github.com/GuiaBolso/darwin v0.0.0-20191218124601-fd6d2aa3d244
+	github.com/IQ-tech/go-mapper v1.0.5
+	github.com/cznic/ql v1.2.0 // indirect
 	github.com/diegoclair/go_utils-lib v1.0.9
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/validator/v10 v10.3.0

@@ -1,12 +1,15 @@
 package categoryroute
 
 import (
+	"fmt"
 	"net/http"
 	"sync"
 
+	"github.com/IQ-tech/go-mapper"
 	"github.com/diegoclair/go_utils-lib/resterrors"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/entity"
+	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/server/viewmodel"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/utils/routeutils"
 	"github.com/gin-gonic/gin"
 )
@@ -19,104 +22,113 @@ var (
 //Controller holds category handlers
 type Controller struct {
 	categoryService contract.CategoryService
+	mapper          mapper.Mapper
 }
 
 //NewController to handle requests
-func NewController(categoryService contract.CategoryService) *Controller {
+func NewController(categoryService contract.CategoryService, mapper mapper.Mapper) *Controller {
 	once.Do(func() {
 		instance = &Controller{
 			categoryService: categoryService,
+			mapper:          mapper,
 		}
 	})
 	return instance
 }
 
-func (s *Controller) handleGetCategories(c *gin.Context) {
+func (c *Controller) handleGetCategories(ctx *gin.Context) {
 
-	categories, err := s.categoryService.GetCategories()
+	categories, err := c.categoryService.GetCategories()
 	if err != nil {
-		c.JSON(err.StatusCode(), err)
+		ctx.JSON(err.StatusCode(), err)
 		return
 	}
 
-	c.JSON(http.StatusOK, categories)
+	ctx.JSON(http.StatusOK, categories)
 }
 
-func (s *Controller) handleGetCategoryByID(c *gin.Context) {
+func (c *Controller) handleGetCategoryByID(ctx *gin.Context) {
 
-	id, err := routeutils.GetAndValidateIntParam(c, "category_id", false)
+	id, err := routeutils.GetAndValidateIntParam(ctx, "category_id", false)
 	if err != nil {
-		c.JSON(err.StatusCode(), err)
+		ctx.JSON(err.StatusCode(), err)
 		return
 	}
 
-	categories, err := s.categoryService.GetCategoryByID(id)
+	categories, err := c.categoryService.GetCategoryByID(id)
 	if err != nil {
-		c.JSON(err.StatusCode(), err)
+		ctx.JSON(err.StatusCode(), err)
 		return
 	}
 
-	c.JSON(http.StatusOK, categories)
+	response := viewmodel.Category{}
+	mapErr := c.mapper.From(*categories).To(&response)
+	if mapErr != nil {
+		err = resterrors.NewInternalServerError("Error to do mapper: " + fmt.Sprint(mapErr))
+		ctx.JSON(err.StatusCode(), err)
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
-func (s *Controller) handleCreateCategory(c *gin.Context) {
+func (c *Controller) handleCreateCategory(ctx *gin.Context) {
 
 	var input entity.Category
 
-	jsonErr := c.ShouldBindJSON(&input)
+	jsonErr := ctx.ShouldBindJSON(&input)
 	if jsonErr != nil {
 		err := resterrors.NewBadRequestError("Invalid json body")
-		c.JSON(err.StatusCode(), err)
+		ctx.JSON(err.StatusCode(), err)
 		return
 	}
 
-	category, err := s.categoryService.CreateCategory(input)
+	category, err := c.categoryService.CreateCategory(input)
 	if err != nil {
-		c.JSON(err.StatusCode(), err)
+		ctx.JSON(err.StatusCode(), err)
 		return
 	}
 
-	c.JSON(http.StatusCreated, category)
+	ctx.JSON(http.StatusCreated, category)
 }
 
-func (s *Controller) handleUpdateCategoryByID(c *gin.Context) {
+func (c *Controller) handleUpdateCategoryByID(ctx *gin.Context) {
 
-	id, err := routeutils.GetAndValidateIntParam(c, "category_id", false)
+	id, err := routeutils.GetAndValidateIntParam(ctx, "category_id", false)
 	if err != nil {
-		c.JSON(err.StatusCode(), err)
+		ctx.JSON(err.StatusCode(), err)
 		return
 	}
 
 	var category entity.Category
-	jsonErr := c.ShouldBindJSON(&category)
+	jsonErr := ctx.ShouldBindJSON(&category)
 	if jsonErr != nil {
 		err := resterrors.NewBadRequestError("Invalid json body")
-		c.JSON(err.StatusCode(), err)
+		ctx.JSON(err.StatusCode(), err)
 		return
 	}
 
-	err = s.categoryService.UpdateCategoryByID(id, category)
+	err = c.categoryService.UpdateCategoryByID(id, category)
 	if err != nil {
-		c.JSON(err.StatusCode(), err)
+		ctx.JSON(err.StatusCode(), err)
 		return
 	}
 
-	c.Writer.WriteHeader(http.StatusOK)
+	ctx.Writer.WriteHeader(http.StatusOK)
 }
 
-func (s *Controller) handleDeleteCategoryByID(c *gin.Context) {
+func (c *Controller) handleDeleteCategoryByID(ctx *gin.Context) {
 
-	id, err := routeutils.GetAndValidateIntParam(c, "category_id", false)
+	id, err := routeutils.GetAndValidateIntParam(ctx, "category_id", false)
 	if err != nil {
-		c.JSON(err.StatusCode(), err)
+		ctx.JSON(err.StatusCode(), err)
 		return
 	}
 
-	err = s.categoryService.DeleteCategoryByID(id)
+	err = c.categoryService.DeleteCategoryByID(id)
 	if err != nil {
-		c.JSON(err.StatusCode(), err)
+		ctx.JSON(err.StatusCode(), err)
 		return
 	}
 
-	c.Writer.WriteHeader(http.StatusNoContent)
+	ctx.Writer.WriteHeader(http.StatusNoContent)
 }
