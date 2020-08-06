@@ -18,7 +18,7 @@ func newCategoryService(svc *Service) contract.CategoryService {
 	}
 }
 
-func (s *categoryService) GetCategories() ([]*entity.Category, resterrors.RestErr) {
+func (s *categoryService) GetCategories() (*[]entity.Category, resterrors.RestErr) {
 
 	return s.svc.db.Category().GetCategories()
 }
@@ -30,8 +30,7 @@ func (s *categoryService) GetCategoryByID(id int64) (*entity.Category, resterror
 
 func (s *categoryService) CreateCategory(category entity.Category) (*entity.Category, resterrors.RestErr) {
 
-	categoryUUID := uuid.NewV4().String()
-	category.UUID = categoryUUID
+	category.UUID = uuid.NewV4().String()
 
 	err := category.Validate()
 	if err != nil {

@@ -44,7 +44,14 @@ func (c *Controller) handleGetCategories(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, categories)
+	response := []viewmodel.Category{}
+	mapErr := c.mapper.From(*categories).To(&response)
+	if mapErr != nil {
+		err = resterrors.NewInternalServerError("Error to do mapper: " + fmt.Sprint(mapErr))
+		ctx.JSON(err.StatusCode(), err)
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 func (c *Controller) handleGetCategoryByID(ctx *gin.Context) {

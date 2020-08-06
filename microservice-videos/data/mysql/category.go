@@ -23,7 +23,7 @@ func newCategoryRepo(db *sql.DB) *categoryRepo {
 }
 
 //GetCategories - return a list of all categories
-func (r *categoryRepo) GetCategories() (categories []*entity.Category, restErr resterrors.RestErr) {
+func (r *categoryRepo) GetCategories() (*[]entity.Category, resterrors.RestErr) {
 
 	query := `
 		SELECT 	tc.id,
@@ -52,6 +52,7 @@ func (r *categoryRepo) GetCategories() (categories []*entity.Category, restErr r
 	}
 	defer rows.Close()
 
+	var categories []entity.Category
 	for rows.Next() {
 		var category entity.Category
 		err = rows.Scan(
@@ -69,14 +70,14 @@ func (r *categoryRepo) GetCategories() (categories []*entity.Category, restErr r
 			return nil, resterrors.NewRestError(fmt.Sprintf("%s", errorCode)+errMessage.Message(), errMessage.StatusCode(), errMessage.Error())
 		}
 
-		categories = append(categories, &category)
+		categories = append(categories, category)
 	}
 
 	if len(categories) == 0 {
 		return nil, resterrors.NewNotFoundError(fmt.Sprintf("No categories found"))
 	}
 
-	return categories, nil
+	return &categories, nil
 }
 
 func (r *categoryRepo) GetCategoryByID(id int64) (*entity.Category, resterrors.RestErr) {
