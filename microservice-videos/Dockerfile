@@ -19,6 +19,5 @@ EXPOSE 80
 #This is used to run the application with live reload
 RUN go get github.com/githubnemo/CompileDaemon
 
-WORKDIR /app
-CMD /wait && CompileDaemon --build="go build -o /app/myapp ." --command=./myapp
+CMD /wait && CompileDaemon --build="go build -o myapp ." --command=./myapp
 
