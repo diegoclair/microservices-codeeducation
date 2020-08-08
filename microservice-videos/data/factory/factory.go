@@ -1,37 +1,46 @@
 package factory
 
 import (
+	"fmt"
 	"strconv"
 
-	"github.com/GuiaBolso/darwin"
+	"github.com/diegoclair/go_utils-lib/logger"
+	"github.com/diegoclair/go_utils-lib/resterrors"
+	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
+	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/entity"
 )
 
 //FakeData to include fake data on database
-func FakeData(migrationsList []darwin.Migration, howManyLines int) []darwin.Migration {
-	init := len(migrationsList)
-	size := len(migrationsList) + howManyLines
-	var values string
-	for i := init; i < size; i++ {
-		if (i + 1) == size {
+func FakeData(c contract.CategoryService) resterrors.RestErr {
 
-			values += `('test ` + strconv.Itoa(i) + `','description ` + strconv.Itoa(i) + `');`
-			break
+	logger.Info("Creating category fake data...")
+	err := categoryData(c)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func categoryData(s contract.CategoryService) resterrors.RestErr {
+
+	_, err := s.GetCategories()
+	if err != nil && err.StatusCode() != 404 {
+		logger.Error("FakeGetCategories: ", fmt.Errorf(err.Message()))
+		return err
+	}
+	if err != nil && err.StatusCode() == 404 {
+		//if the err code is 404, it means that we have no categories in database, then we'll create
+		for i := 0; i < 100; i++ {
+			fake := entity.Category{}
+			fake.Name = "Test name " + strconv.Itoa(i+1)
+			fake.Description = "Description " + strconv.Itoa(i+1)
+			_, err = s.CreateCategory(fake)
+			if err != nil {
+				logger.Error("FakeCreateCategory: ", fmt.Errorf(err.Message()))
+				return err
+			}
 		}
-		values += `('test ` + strconv.Itoa(i) + `','description ` + strconv.Itoa(i) + `'), `
 	}
 
-	var (
-		migration = darwin.Migration{
-			Version:     float64(init + 1),
-			Description: "Inserting data tab_categories",
-			Script: `
-					INSERT INTO tab_categories 
-						(name,description) 
-					VALUES ` + values,
-		}
-	)
-
-	migrationsList = append(migrationsList, migration)
-
-	return migrationsList
+	return nil
 }
