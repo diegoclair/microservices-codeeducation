@@ -56,13 +56,9 @@ func (c *Controller) handleGetCategories(ctx *gin.Context) {
 
 func (c *Controller) handleGetCategoryByID(ctx *gin.Context) {
 
-	id, err := routeutils.GetAndValidateIntParam(ctx, "category_id", false)
-	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
-	}
+	uuid := ctx.Param("category_id")
 
-	categories, err := c.categoryService.GetCategoryByID(id)
+	categories, err := c.categoryService.GetCategoryByID(uuid)
 	if err != nil {
 		ctx.JSON(err.StatusCode(), err)
 		return

@@ -21,9 +21,11 @@ func GetAndValidateIntParam(c *gin.Context, paramName string, isZeroValid bool) 
 	ID, err := strconv.ParseInt(IDStr, 10, 64)
 	if err != nil {
 		restErr = resterrors.NewBadRequestError(fmt.Sprintf("The param %s is should be a integer number", paramName))
+		return
 	}
 	if !isZeroValid && ID == 0 {
 		restErr = resterrors.NewBadRequestError(fmt.Sprintf("The param %s can't be zero", paramName))
+		return
 	}
 
 	return

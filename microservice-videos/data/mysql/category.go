@@ -80,7 +80,7 @@ func (r *categoryRepo) GetCategories() (*[]entity.Category, resterrors.RestErr) 
 	return &categories, nil
 }
 
-func (r *categoryRepo) GetCategoryByID(id int64) (*entity.Category, resterrors.RestErr) {
+func (r *categoryRepo) GetCategoryByID(uuid string) (*entity.Category, resterrors.RestErr) {
 
 	query := `
 		SELECT 	tc.id,
@@ -90,7 +90,7 @@ func (r *categoryRepo) GetCategoryByID(id int64) (*entity.Category, resterrors.R
 				tc.active
 
 		FROM 	tab_categories 	tc
-		WHERE 	tc.id 			= ?
+		WHERE 	tc.uuid			= ?
 		  AND 	tc.deleted_at 	IS NULL;`
 
 	stmt, err := r.db.Prepare(query)
@@ -101,7 +101,7 @@ func (r *categoryRepo) GetCategoryByID(id int64) (*entity.Category, resterrors.R
 	}
 	defer stmt.Close()
 
-	result := stmt.QueryRow(id)
+	result := stmt.QueryRow(uuid)
 	var category entity.Category
 	err = result.Scan(
 		&category.ID,

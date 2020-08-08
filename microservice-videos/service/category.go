@@ -23,9 +23,9 @@ func (s *categoryService) GetCategories() (*[]entity.Category, resterrors.RestEr
 	return s.svc.db.Category().GetCategories()
 }
 
-func (s *categoryService) GetCategoryByID(id int64) (*entity.Category, resterrors.RestErr) {
+func (s *categoryService) GetCategoryByID(uuid string) (*entity.Category, resterrors.RestErr) {
 
-	return s.svc.db.Category().GetCategoryByID(id)
+	return s.svc.db.Category().GetCategoryByID(uuid)
 }
 
 func (s *categoryService) CreateCategory(category entity.Category) (*entity.Category, resterrors.RestErr) {
