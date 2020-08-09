@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/diegoclair/go_utils-lib/resterrors"
+	"github.com/diegoclair/go_utils-lib/validstruct"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/entity"
 	uuid "github.com/satori/go.uuid"
@@ -23,26 +24,36 @@ func (s *categoryService) GetCategories() (*[]entity.Category, resterrors.RestEr
 	return s.svc.db.Category().GetCategories()
 }
 
-func (s *categoryService) GetCategoryByID(uuid string) (*entity.Category, resterrors.RestErr) {
+func (s *categoryService) GetCategoryByUUID(uuid string) (*entity.Category, resterrors.RestErr) {
 
-	return s.svc.db.Category().GetCategoryByID(uuid)
+	return s.svc.db.Category().GetCategoryByUUID(uuid)
 }
 
 func (s *categoryService) CreateCategory(category entity.Category) (*entity.Category, resterrors.RestErr) {
 
 	category.UUID = uuid.NewV4().String()
 
-	err := category.Validate()
+	err := validstruct.ValidateStruct(category)
 	if err != nil {
 		return nil, err
 	}
 
-	return s.svc.db.Category().CreateCategory(category)
+	err = s.svc.db.Category().CreateCategory(category)
+	if err != nil {
+		return nil, err
+	}
+
+	categoryData, err := s.svc.db.Category().GetCategoryByUUID(category.UUID)
+	if err != nil {
+		return nil, err
+	}
+
+	return categoryData, nil
 }
 
 func (s *categoryService) UpdateCategoryByID(id int64, category entity.Category) resterrors.RestErr {
 
-	err := category.Validate()
+	err := validstruct.ValidateStruct(category)
 	if err != nil {
 		return err
 	}

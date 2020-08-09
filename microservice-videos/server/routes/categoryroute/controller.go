@@ -58,7 +58,7 @@ func (c *Controller) handleGetCategoryByID(ctx *gin.Context) {
 
 	uuid := ctx.Param("category_id")
 
-	categories, err := c.categoryService.GetCategoryByID(uuid)
+	categories, err := c.categoryService.GetCategoryByUUID(uuid)
 	if err != nil {
 		ctx.JSON(err.StatusCode(), err)
 		return
@@ -91,7 +91,14 @@ func (c *Controller) handleCreateCategory(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, category)
+	response := viewmodel.Category{}
+	mapErr := c.mapper.From(*category).To(&response)
+	if mapErr != nil {
+		err = resterrors.NewInternalServerError("Error to do mapper: " + fmt.Sprint(mapErr))
+		ctx.JSON(err.StatusCode(), err)
+	}
+
+	ctx.JSON(http.StatusCreated, response)
 }
 
 func (c *Controller) handleUpdateCategoryByID(ctx *gin.Context) {
