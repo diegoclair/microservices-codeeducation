@@ -8,6 +8,7 @@ import (
 //RepoManager defines the repository aggregator interface
 type RepoManager interface {
 	Category() CategoryRepo
+	Genre() GenreRepo
 }
 
 // CategoryRepo data set
@@ -17,4 +18,13 @@ type CategoryRepo interface {
 	CreateCategory(category entity.Category) resterrors.RestErr
 	UpdateCategoryByID(uuid string, category entity.Category) resterrors.RestErr
 	DeleteCategoryByID(uuid string) resterrors.RestErr
+}
+
+// GenreRepo data set
+type GenreRepo interface {
+	GetGenres() (*[]entity.Genre, resterrors.RestErr)
+	GetGenreByUUID(uuid string) (*entity.Genre, resterrors.RestErr)
+	CreateGenre(category entity.Genre) resterrors.RestErr
+	UpdateGenreByID(uuid string, category entity.Genre) resterrors.RestErr
+	DeleteGenreByID(uuid string) resterrors.RestErr
 }

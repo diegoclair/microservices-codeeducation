@@ -66,3 +66,8 @@ func Instance() (contract.RepoManager, error) {
 func (c *DBManager) Category() contract.CategoryRepo {
 	return newCategoryRepo(c.db)
 }
+
+//Genre returns the category set
+func (c *DBManager) Genre() contract.GenreRepo {
+	return newGenreRepo(c.db)
+}

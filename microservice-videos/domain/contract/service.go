@@ -13,3 +13,12 @@ type CategoryService interface {
 	UpdateCategoryByID(uuid string, category entity.Category) resterrors.RestErr
 	DeleteCategoryByID(uuid string) resterrors.RestErr
 }
+
+// GenreService holds a user service operations
+type GenreService interface {
+	GetGenres() (*[]entity.Genre, resterrors.RestErr)
+	GetGenreByUUID(uuid string) (*entity.Genre, resterrors.RestErr)
+	CreateGenre(category entity.Genre) (*entity.Genre, resterrors.RestErr)
+	UpdateGenreByID(uuid string, category entity.Genre) resterrors.RestErr
+	DeleteGenreByID(uuid string) resterrors.RestErr
+}
