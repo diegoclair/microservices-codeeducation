@@ -121,7 +121,7 @@ func (r *genreRepo) CreateGenre(genre entity.Genre) resterrors.RestErr {
 	query := `
 		INSERT INTO tab_genres 
 				(uuid, name) 
-		VALUES	(?, ?, ?);
+		VALUES	(?, ?);
 		`
 
 	stmt, err := r.db.Prepare(query)
