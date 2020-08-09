@@ -51,17 +51,17 @@ func (s *categoryService) CreateCategory(category entity.Category) (*entity.Cate
 	return categoryData, nil
 }
 
-func (s *categoryService) UpdateCategoryByID(id int64, category entity.Category) resterrors.RestErr {
+func (s *categoryService) UpdateCategoryByID(uuid string, category entity.Category) resterrors.RestErr {
 
 	err := validstruct.ValidateStruct(category)
 	if err != nil {
 		return err
 	}
 
-	return s.svc.db.Category().UpdateCategoryByID(id, category)
+	return s.svc.db.Category().UpdateCategoryByID(uuid, category)
 }
 
-func (s *categoryService) DeleteCategoryByID(id int64) resterrors.RestErr {
+func (s *categoryService) DeleteCategoryByID(uuid string) resterrors.RestErr {
 
-	return s.svc.db.Category().DeleteCategoryByID(id)
+	return s.svc.db.Category().DeleteCategoryByID(uuid)
 }

@@ -146,7 +146,7 @@ func (r *categoryRepo) CreateCategory(category entity.Category) resterrors.RestE
 	return nil
 }
 
-func (r *categoryRepo) UpdateCategoryByID(id int64, category entity.Category) resterrors.RestErr {
+func (r *categoryRepo) UpdateCategoryByID(uuid string, category entity.Category) resterrors.RestErr {
 
 	query := `
 		UPDATE tab_categories 
@@ -165,7 +165,7 @@ func (r *categoryRepo) UpdateCategoryByID(id int64, category entity.Category) re
 	}
 	defer stmt.Close()
 
-	result, err := stmt.Exec(category.Name, category.Description, id)
+	result, err := stmt.Exec(category.Name, category.Description, uuid)
 	if err != nil {
 		errorCode := "Error 0002 - "
 		logger.Error(fmt.Sprintf("%sUpdateCategoryByID: ", errorCode), err)
@@ -181,12 +181,12 @@ func (r *categoryRepo) UpdateCategoryByID(id int64, category entity.Category) re
 	return nil
 }
 
-func (r *categoryRepo) DeleteCategoryByID(id int64) resterrors.RestErr {
+func (r *categoryRepo) DeleteCategoryByID(uuid string) resterrors.RestErr {
 	query := `
 		UPDATE tab_categories 
 			SET deleted_at	= ?
 
-		WHERE 	id 			= ?;
+		WHERE 	uuid 			= ?;
 		`
 
 	stmt, err := r.db.Prepare(query)
@@ -197,7 +197,7 @@ func (r *categoryRepo) DeleteCategoryByID(id int64) resterrors.RestErr {
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(time.Now(), id)
+	_, err = stmt.Exec(time.Now(), uuid)
 	if err != nil {
 		errorCode := "Error 0002 - "
 		logger.Error(fmt.Sprintf("%sError when trying to execute Query in DeleteCategoryByID: ", errorCode), err)

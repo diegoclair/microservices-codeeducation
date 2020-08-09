@@ -10,7 +10,6 @@ import (
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/entity"
 	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/server/viewmodel"
-	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/utils/routeutils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -103,11 +102,7 @@ func (c *Controller) handleCreateCategory(ctx *gin.Context) {
 
 func (c *Controller) handleUpdateCategoryByID(ctx *gin.Context) {
 
-	id, err := routeutils.GetAndValidateIntParam(ctx, "category_id", false)
-	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
-	}
+	uuid := ctx.Param("category_id")
 
 	var category entity.Category
 	jsonErr := ctx.ShouldBindJSON(&category)
@@ -117,7 +112,7 @@ func (c *Controller) handleUpdateCategoryByID(ctx *gin.Context) {
 		return
 	}
 
-	err = c.categoryService.UpdateCategoryByID(id, category)
+	err := c.categoryService.UpdateCategoryByID(uuid, category)
 	if err != nil {
 		ctx.JSON(err.StatusCode(), err)
 		return
@@ -128,13 +123,9 @@ func (c *Controller) handleUpdateCategoryByID(ctx *gin.Context) {
 
 func (c *Controller) handleDeleteCategoryByID(ctx *gin.Context) {
 
-	id, err := routeutils.GetAndValidateIntParam(ctx, "category_id", false)
-	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
-	}
+	uuid := ctx.Param("category_id")
 
-	err = c.categoryService.DeleteCategoryByID(id)
+	err := c.categoryService.DeleteCategoryByID(uuid)
 	if err != nil {
 		ctx.JSON(err.StatusCode(), err)
 		return
