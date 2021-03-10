@@ -10,8 +10,7 @@ import (
 	"github.com/diegoclair/microservices-codeeducation/microservice-videos/application/rest/viewmodel"
 	"github.com/diegoclair/microservices-codeeducation/microservice-videos/contract"
 	"github.com/diegoclair/microservices-codeeducation/microservice-videos/domain/entity"
-
-	"github.com/gin-gonic/gin"
+	"github.com/labstack/echo/v4"
 )
 
 var (
@@ -36,101 +35,94 @@ func NewController(genreService contract.GenreService, mapper mapper.Mapper) *Co
 	return instance
 }
 
-func (c *Controller) handleGetGenres(ctx *gin.Context) {
+func (c *Controller) handleGetGenres(ctx echo.Context) error {
 
 	genres, err := c.genreService.GetGenres()
 	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
 	response := []viewmodel.Genre{}
 	mapErr := c.mapper.From(*genres).To(&response)
 	if mapErr != nil {
 		err = resterrors.NewInternalServerError("Error to do mapper: " + fmt.Sprint(mapErr))
-		ctx.JSON(err.StatusCode(), err)
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
-	ctx.JSON(http.StatusOK, response)
+	return ctx.JSON(http.StatusOK, response)
 }
 
-func (c *Controller) handleGetGenreByID(ctx *gin.Context) {
+func (c *Controller) handleGetGenreByID(ctx echo.Context) error {
 
 	uuid := ctx.Param("genre_id")
 
 	genres, err := c.genreService.GetGenreByUUID(uuid)
 	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
 	response := viewmodel.Genre{}
 	mapErr := c.mapper.From(*genres).To(&response)
 	if mapErr != nil {
 		err = resterrors.NewInternalServerError("Error to do mapper: " + fmt.Sprint(mapErr))
-		ctx.JSON(err.StatusCode(), err)
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
-	ctx.JSON(http.StatusOK, response)
+	return ctx.JSON(http.StatusOK, response)
 }
 
-func (c *Controller) handleCreateGenre(ctx *gin.Context) {
+func (c *Controller) handleCreateGenre(ctx echo.Context) error {
 
 	var input entity.Genre
 
-	jsonErr := ctx.ShouldBindJSON(&input)
+	jsonErr := ctx.Bind(&input)
 	if jsonErr != nil {
 		err := resterrors.NewBadRequestError("Invalid json body")
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
 	genre, err := c.genreService.CreateGenre(input)
 	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
 	response := viewmodel.Genre{}
 	mapErr := c.mapper.From(*genre).To(&response)
 	if mapErr != nil {
 		err = resterrors.NewInternalServerError("Error to do mapper: " + fmt.Sprint(mapErr))
-		ctx.JSON(err.StatusCode(), err)
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
-	ctx.JSON(http.StatusCreated, response)
+	return ctx.JSON(http.StatusCreated, response)
 }
 
-func (c *Controller) handleUpdateGenreByID(ctx *gin.Context) {
+func (c *Controller) handleUpdateGenreByID(ctx echo.Context) error {
 
 	uuid := ctx.Param("genre_id")
 
 	var genre entity.Genre
-	jsonErr := ctx.ShouldBindJSON(&genre)
+	jsonErr := ctx.Bind(&genre)
 	if jsonErr != nil {
 		err := resterrors.NewBadRequestError("Invalid json body")
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
 	err := c.genreService.UpdateGenreByID(uuid, genre)
 	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
-	ctx.Writer.WriteHeader(http.StatusOK)
+	return ctx.NoContent(http.StatusNoContent)
 }
 
-func (c *Controller) handleDeleteGenreByID(ctx *gin.Context) {
+func (c *Controller) handleDeleteGenreByID(ctx echo.Context) error {
 
 	uuid := ctx.Param("genre_id")
 
 	err := c.genreService.DeleteGenreByID(uuid)
 	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
-	ctx.Writer.WriteHeader(http.StatusNoContent)
+	return ctx.NoContent(http.StatusNoContent)
 }

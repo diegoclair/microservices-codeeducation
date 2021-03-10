@@ -10,8 +10,8 @@ import (
 	"github.com/diegoclair/microservices-codeeducation/microservice-videos/application/rest/routes/genreroute"
 	"github.com/diegoclair/microservices-codeeducation/microservice-videos/contract"
 	dataFactory "github.com/diegoclair/microservices-codeeducation/microservice-videos/infra/data/factory"
-
-	"github.com/gin-gonic/gin"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type routes struct {
@@ -30,17 +30,19 @@ func StartRestServer() {
 
 	logger.Info("About to start the application...")
 
-	if err := server.Run(fmt.Sprintf(":%s", port)); err != nil {
+	if err := server.Start(fmt.Sprintf(":%s", port)); err != nil {
 		panic(err)
 	}
 
 }
 
 //initServer to initialize the server
-func initServer() *gin.Engine {
+func initServer() *echo.Echo {
 
 	factory := factory.GetDomainServices()
-	srv := gin.Default()
+
+	srv := echo.New()
+	srv.Use(middleware.CORSWithConfig(middleware.DefaultCORSConfig))
 
 	fakedata(factory.CategoryService, factory.GenreService)
 
@@ -51,7 +53,7 @@ func initServer() *gin.Engine {
 }
 
 //registerRoutes - Register and instantiate the routes
-func registerRoutes(srv *gin.Engine, r *routes) *gin.Engine {
+func registerRoutes(srv *echo.Echo, r *routes) *echo.Echo {
 
 	categoryroute.NewRouter(r.categoryController, srv).RegisterRoutes()
 	genreroute.NewRouter(r.genreController, srv).RegisterRoutes()

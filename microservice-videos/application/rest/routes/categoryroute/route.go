@@ -1,17 +1,15 @@
 package categoryroute
 
-import (
-	"github.com/gin-gonic/gin"
-)
+import "github.com/labstack/echo/v4"
 
 // CategoriesRouter holds the category handlers
 type CategoriesRouter struct {
 	ctrl   *Controller
-	router *gin.Engine
+	router *echo.Echo
 }
 
 // NewRouter returns a new CategoriesRouter instance
-func NewRouter(ctrl *Controller, router *gin.Engine) *CategoriesRouter {
+func NewRouter(ctrl *Controller, router *echo.Echo) *CategoriesRouter {
 	return &CategoriesRouter{
 		ctrl:   ctrl,
 		router: router,

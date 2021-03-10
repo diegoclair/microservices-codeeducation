@@ -10,8 +10,7 @@ import (
 	"github.com/diegoclair/microservices-codeeducation/microservice-videos/application/rest/viewmodel"
 	"github.com/diegoclair/microservices-codeeducation/microservice-videos/contract"
 	"github.com/diegoclair/microservices-codeeducation/microservice-videos/domain/entity"
-
-	"github.com/gin-gonic/gin"
+	"github.com/labstack/echo/v4"
 )
 
 var (
@@ -36,101 +35,94 @@ func NewController(categoryService contract.CategoryService, mapper mapper.Mappe
 	return instance
 }
 
-func (c *Controller) handleGetCategories(ctx *gin.Context) {
+func (c *Controller) handleGetCategories(ctx echo.Context) error {
 
 	categories, err := c.categoryService.GetCategories()
 	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
 	response := []viewmodel.Category{}
 	mapErr := c.mapper.From(*categories).To(&response)
 	if mapErr != nil {
 		err = resterrors.NewInternalServerError("Error to do mapper: " + fmt.Sprint(mapErr))
-		ctx.JSON(err.StatusCode(), err)
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
-	ctx.JSON(http.StatusOK, response)
+	return ctx.JSON(http.StatusOK, response)
 }
 
-func (c *Controller) handleGetCategoryByID(ctx *gin.Context) {
+func (c *Controller) handleGetCategoryByID(ctx echo.Context) error {
 
 	uuid := ctx.Param("category_id")
 
 	categories, err := c.categoryService.GetCategoryByUUID(uuid)
 	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
 	response := viewmodel.Category{}
 	mapErr := c.mapper.From(*categories).To(&response)
 	if mapErr != nil {
 		err = resterrors.NewInternalServerError("Error to do mapper: " + fmt.Sprint(mapErr))
-		ctx.JSON(err.StatusCode(), err)
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
-	ctx.JSON(http.StatusOK, response)
+	return ctx.JSON(http.StatusOK, response)
 }
 
-func (c *Controller) handleCreateCategory(ctx *gin.Context) {
+func (c *Controller) handleCreateCategory(ctx echo.Context) error {
 
 	var input entity.Category
 
-	jsonErr := ctx.ShouldBindJSON(&input)
+	jsonErr := ctx.Bind(&input)
 	if jsonErr != nil {
 		err := resterrors.NewBadRequestError("Invalid json body")
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
 	category, err := c.categoryService.CreateCategory(input)
 	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
 	response := viewmodel.Category{}
 	mapErr := c.mapper.From(*category).To(&response)
 	if mapErr != nil {
 		err = resterrors.NewInternalServerError("Error to do mapper: " + fmt.Sprint(mapErr))
-		ctx.JSON(err.StatusCode(), err)
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
-	ctx.JSON(http.StatusCreated, response)
+	return ctx.JSON(http.StatusCreated, response)
 }
 
-func (c *Controller) handleUpdateCategoryByID(ctx *gin.Context) {
+func (c *Controller) handleUpdateCategoryByID(ctx echo.Context) error {
 
 	uuid := ctx.Param("category_id")
 
 	var category entity.Category
-	jsonErr := ctx.ShouldBindJSON(&category)
+	jsonErr := ctx.Bind(&category)
 	if jsonErr != nil {
 		err := resterrors.NewBadRequestError("Invalid json body")
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
 	err := c.categoryService.UpdateCategoryByID(uuid, category)
 	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
-	ctx.Writer.WriteHeader(http.StatusOK)
+	return ctx.NoContent(http.StatusNoContent)
 }
 
-func (c *Controller) handleDeleteCategoryByID(ctx *gin.Context) {
+func (c *Controller) handleDeleteCategoryByID(ctx echo.Context) error {
 
 	uuid := ctx.Param("category_id")
 
 	err := c.categoryService.DeleteCategoryByID(uuid)
 	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
-		return
+		return ctx.JSON(err.StatusCode(), err)
 	}
 
-	ctx.Writer.WriteHeader(http.StatusNoContent)
+	return ctx.NoContent(http.StatusNoContent)
 }

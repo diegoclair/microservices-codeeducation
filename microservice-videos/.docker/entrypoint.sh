@@ -1,7 +1,4 @@
 #!/bin/bash
 
-#compile app
-go build
-
 #start app after wait the database
-sh -c "/wait && ./microservice-videos rest"
+sh -c "/wait && ./myapp rest"

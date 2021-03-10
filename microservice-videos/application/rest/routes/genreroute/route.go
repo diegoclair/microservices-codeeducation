@@ -1,17 +1,15 @@
 package genreroute
 
-import (
-	"github.com/gin-gonic/gin"
-)
+import "github.com/labstack/echo/v4"
 
 // GenresRouter holds the genre handlers
 type GenresRouter struct {
 	ctrl   *Controller
-	router *gin.Engine
+	router *echo.Echo
 }
 
 // NewRouter returns a new GenresRouter instance
-func NewRouter(ctrl *Controller, router *gin.Engine) *GenresRouter {
+func NewRouter(ctrl *Controller, router *echo.Echo) *GenresRouter {
 	return &GenresRouter{
 		ctrl:   ctrl,
 		router: router,
