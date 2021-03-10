@@ -8,7 +8,7 @@ import (
 	"github.com/diegoclair/go_utils-lib/logger"
 	"github.com/diegoclair/go_utils-lib/mysqlutils"
 	"github.com/diegoclair/go_utils-lib/resterrors"
-	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/entity"
+	"github.com/diegoclair/microservices-codeeducation/microservice-videos/domain/entity"
 )
 
 type categoryRepo struct {

@@ -4,4 +4,4 @@
 go build
 
 #start app after wait the database
-sh -c "/wait && ./microservice-videos"
+sh -c "/wait && ./microservice-videos rest"

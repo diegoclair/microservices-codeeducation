@@ -6,8 +6,8 @@ import (
 
 	"github.com/diegoclair/go_utils-lib/logger"
 	"github.com/diegoclair/go_utils-lib/resterrors"
-	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
-	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/entity"
+	"github.com/diegoclair/microservices-codeeducation/microservice-videos/contract"
+	"github.com/diegoclair/microservices-codeeducation/microservice-videos/domain/entity"
 )
 
 //FakeData to include fake data on database

@@ -1,16 +1,21 @@
 package service
 
-import "github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
+import (
+	"github.com/diegoclair/microservices-codeeducation/microservice-videos/contract"
+	"github.com/diegoclair/microservices-codeeducation/microservice-videos/infra/config"
+)
 
 // Service holds the domain service repositories
 type Service struct {
-	db contract.RepoManager
+	dm  contract.DataManager
+	cfg *config.EnvironmentVariables
 }
 
 // New returns a new domain Service instance
-func New(db contract.RepoManager) *Service {
+func New(dm contract.DataManager, cfg *config.EnvironmentVariables) *Service {
 	svc := new(Service)
-	svc.db = db
+	svc.dm = dm
+	svc.cfg = cfg
 
 	return svc
 }

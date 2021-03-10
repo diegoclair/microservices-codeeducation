@@ -3,8 +3,8 @@ package service
 import (
 	"github.com/diegoclair/go_utils-lib/resterrors"
 	"github.com/diegoclair/go_utils-lib/validstruct"
-	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
-	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/entity"
+	"github.com/diegoclair/microservices-codeeducation/microservice-videos/contract"
+	"github.com/diegoclair/microservices-codeeducation/microservice-videos/domain/entity"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -21,12 +21,12 @@ func newCategoryService(svc *Service) contract.CategoryService {
 
 func (s *categoryService) GetCategories() (*[]entity.Category, resterrors.RestErr) {
 
-	return s.svc.db.Category().GetCategories()
+	return s.svc.dm.MySQL().Category().GetCategories()
 }
 
 func (s *categoryService) GetCategoryByUUID(uuid string) (*entity.Category, resterrors.RestErr) {
 
-	return s.svc.db.Category().GetCategoryByUUID(uuid)
+	return s.svc.dm.MySQL().Category().GetCategoryByUUID(uuid)
 }
 
 func (s *categoryService) CreateCategory(category entity.Category) (*entity.Category, resterrors.RestErr) {
@@ -38,12 +38,12 @@ func (s *categoryService) CreateCategory(category entity.Category) (*entity.Cate
 		return nil, err
 	}
 
-	err = s.svc.db.Category().CreateCategory(category)
+	err = s.svc.dm.MySQL().Category().CreateCategory(category)
 	if err != nil {
 		return nil, err
 	}
 
-	categoryData, err := s.svc.db.Category().GetCategoryByUUID(category.UUID)
+	categoryData, err := s.svc.dm.MySQL().Category().GetCategoryByUUID(category.UUID)
 	if err != nil {
 		return nil, err
 	}
@@ -58,10 +58,10 @@ func (s *categoryService) UpdateCategoryByID(uuid string, category entity.Catego
 		return err
 	}
 
-	return s.svc.db.Category().UpdateCategoryByID(uuid, category)
+	return s.svc.dm.MySQL().Category().UpdateCategoryByID(uuid, category)
 }
 
 func (s *categoryService) DeleteCategoryByID(uuid string) resterrors.RestErr {
 
-	return s.svc.db.Category().DeleteCategoryByID(uuid)
+	return s.svc.dm.MySQL().Category().DeleteCategoryByID(uuid)
 }

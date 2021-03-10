@@ -19,5 +19,7 @@ EXPOSE 80
 #This is used to run the application with live reload
 RUN go get github.com/githubnemo/CompileDaemon
 
-ENTRYPOINT /wait && CompileDaemon --build="go build -o myapp ." --command=./myapp
+RUN GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o myapp
+
+ENTRYPOINT /wait && CompileDaemon --command="./myapp rest"
 

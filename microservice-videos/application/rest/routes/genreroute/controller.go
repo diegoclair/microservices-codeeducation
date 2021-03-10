@@ -7,9 +7,10 @@ import (
 
 	"github.com/IQ-tech/go-mapper"
 	"github.com/diegoclair/go_utils-lib/resterrors"
-	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
-	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/entity"
-	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/server/viewmodel"
+	"github.com/diegoclair/microservices-codeeducation/microservice-videos/application/rest/viewmodel"
+	"github.com/diegoclair/microservices-codeeducation/microservice-videos/contract"
+	"github.com/diegoclair/microservices-codeeducation/microservice-videos/domain/entity"
+
 	"github.com/gin-gonic/gin"
 )
 

@@ -16,7 +16,7 @@ services:
          - ./:/app   #use this volume to set the live reload
       depends_on:
          - db
-         - redis
+      #   - redis
       networks:
          - app-network
 
@@ -54,13 +54,13 @@ services:
       networks:
          - app-network
 
-   redis:
-      image: redis:alpine
-      container_name: micro-videos-redis
-      expose:
-         - 6379
-      networks:
-         - app-network
+   # redis:
+   #    image: redis:alpine
+   #    container_name: micro-videos-redis
+   #    expose:
+   #       - 6379
+   #    networks:
+   #       - app-network
 
 networks:
    app-network:

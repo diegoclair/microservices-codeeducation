@@ -3,8 +3,8 @@ package service
 import (
 	"github.com/diegoclair/go_utils-lib/resterrors"
 	"github.com/diegoclair/go_utils-lib/validstruct"
-	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/contract"
-	"github.com/diegoclair/microservices-codeeducation/tree/master/microservice-videos/domain/entity"
+	"github.com/diegoclair/microservices-codeeducation/microservice-videos/contract"
+	"github.com/diegoclair/microservices-codeeducation/microservice-videos/domain/entity"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -21,12 +21,12 @@ func newGenreService(svc *Service) contract.GenreService {
 
 func (s *genreService) GetGenres() (*[]entity.Genre, resterrors.RestErr) {
 
-	return s.svc.db.Genre().GetGenres()
+	return s.svc.dm.MySQL().Genre().GetGenres()
 }
 
 func (s *genreService) GetGenreByUUID(uuid string) (*entity.Genre, resterrors.RestErr) {
 
-	return s.svc.db.Genre().GetGenreByUUID(uuid)
+	return s.svc.dm.MySQL().Genre().GetGenreByUUID(uuid)
 }
 
 func (s *genreService) CreateGenre(genre entity.Genre) (*entity.Genre, resterrors.RestErr) {
@@ -38,12 +38,12 @@ func (s *genreService) CreateGenre(genre entity.Genre) (*entity.Genre, resterror
 		return nil, err
 	}
 
-	err = s.svc.db.Genre().CreateGenre(genre)
+	err = s.svc.dm.MySQL().Genre().CreateGenre(genre)
 	if err != nil {
 		return nil, err
 	}
 
-	genreData, err := s.svc.db.Genre().GetGenreByUUID(genre.UUID)
+	genreData, err := s.svc.dm.MySQL().Genre().GetGenreByUUID(genre.UUID)
 	if err != nil {
 		return nil, err
 	}
@@ -58,10 +58,10 @@ func (s *genreService) UpdateGenreByID(uuid string, genre entity.Genre) resterro
 		return err
 	}
 
-	return s.svc.db.Genre().UpdateGenreByID(uuid, genre)
+	return s.svc.dm.MySQL().Genre().UpdateGenreByID(uuid, genre)
 }
 
 func (s *genreService) DeleteGenreByID(uuid string) resterrors.RestErr {
 
-	return s.svc.db.Genre().DeleteGenreByID(uuid)
+	return s.svc.dm.MySQL().Genre().DeleteGenreByID(uuid)
 }
