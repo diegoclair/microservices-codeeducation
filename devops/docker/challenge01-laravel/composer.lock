@@ -4554,7 +4554,7 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.0.2",
+            "version": "2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
@@ -4961,7 +4961,7 @@
                 "symfony/console": "^5.0"
             },
             "require-dev": {
-                "facade/ignition": "^2.0",
+                "facade/ignition": "2.4.2",
                 "fideloper/proxy": "^4.2",
                 "friendsofphp/php-cs-fixer": "^2.16",
                 "fruitcake/laravel-cors": "^1.0",
