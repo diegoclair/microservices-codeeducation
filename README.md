@@ -63,7 +63,7 @@ In development 🚧
      - Kubernetes using GCP (Google Cloud Plataform)
   - [CD](https://codeship.com/continuous-integration-essentials) ✅
 * Programming languages 🕒
-  - [Golang](https://golang.org/)
+  - [Golang](https://golang.org/) ✅
   - [Nodejs](https://nodejs.org/en/about/)
   - [PHP](https://laravel.com/) (Laravel)
   - [React](https://reactjs.org/)
@@ -72,7 +72,7 @@ In development 🚧
   - [Kafka](https://kafka.apache.org/)
 * Databases 🕒
   - [Redis](https://redis.io/)
-  - [MySQL](https://www.mysql.com/)
+  - [MySQL](https://www.mysql.com/) ✅
   - [Elasticsearch + kibana](https://www.elastic.co/)
 
 ## 🚧 Extras 
