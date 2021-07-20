@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: goserver
+  labels:
+    name: goserver
+spec: 
+  selector:
+    matchLabels:
+      name: goserver
+  replicas: 2
+  template:
+    metadata:
+      name: goserver
+      labels:
+        name: goserver
+    spec:
+      containers:
+      - name: goserver
+        image: diegoclair/hello-k8s:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 8081
