@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goserver
+  labels:
+    name: goserver
+spec:
+  containers:
+  - name: goserver
+    image: diegoclair/hello-k8s:latest
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 8081
