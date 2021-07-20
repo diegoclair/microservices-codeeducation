@@ -1,3 +1,6 @@
+# the problem of replicaset is that if we change the docker image to another version, when we reapply the replicaset
+# the pods will be yet with the older version and we need to kill all pods so they ca be recreated with the new version
+# OBS: the deployment file solve this problem!!
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
