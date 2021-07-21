@@ -17,25 +17,27 @@ spec:
       containers:
       - name: goserver
         #if you apply this file with a new version image, you ca use commands like kubectl rollout undo deployment <name of your deployment (here is goserver)>
-        image: diegoclair/hello-k8s:v2
+        image: diegoclair/hello-k8s:v3
         envFrom:
-          - configMapRef:
-              name: goserver-env
-        # other way to use config map and get one by one variable: 
-        # env:
-        # - name: NAME
-        #   valueFrom:
-        #     configMapKeyRef:
-        #       name: goserver-env
-        #       key: NAME
+        - configMapRef:
+            name: goserver-env
+        
+        volumeMounts:
+          - mountPath: /go/employees
+            name: config-employee  #our volume name
 
-        # - name: AGE
-        #   valueFrom:
-        #       configMapKeyRef:
-        #         name: goserver-env
-        #         key: AGE
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
+
+      # with this volume we can mount the volume and this file will be created in our pods so the server.go will be able to read the file
+      volumes:
+      - name: config-employee
+        configMap:
+          name: configmap-employee
+          items:
+            - key: members
+              path: employee.txt
+
 
