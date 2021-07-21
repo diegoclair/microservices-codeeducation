@@ -25,6 +25,7 @@ spec:
         volumeMounts:
           - mountPath: /go/employees
             name: config-employee  #our volume name
+            readOnly: true
 
         resources:
           limits:
