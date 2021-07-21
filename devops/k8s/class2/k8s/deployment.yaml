@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: goserver
+  labels:
+    app: goserver
 spec:
   selector:
     matchLabels:
@@ -15,10 +17,14 @@ spec:
       containers:
       - name: goserver
         #if you apply this file with a new version image, you ca use commands like kubectl rollout undo deployment <name of your deployment (here is goserver)>
-        image: diegoclair/hello-k8s:latest
+        image: diegoclair/hello-k8s:v2
+        env:
+        - name: NAME
+          value: "Diego"
+        - name: AGE
+          value: "27"
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
-        ports:
-          - containerPort: 8081
+
