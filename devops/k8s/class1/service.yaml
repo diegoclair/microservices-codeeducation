@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     app: hello-nginx
-  type: LoadBalancer  #if we see the deployment.yaml, we have 2 replications, so the kubernetes we'll do the LoadBalance automatically between this 2 pods replications
+  type: LoadBalancer 
   ports:
     - port: 80
 

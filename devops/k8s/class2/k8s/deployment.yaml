@@ -17,10 +17,12 @@ spec:
       containers:
       - name: goserver
         #if you apply this file with a new version image, you ca use commands like kubectl rollout undo deployment <name of your deployment (here is goserver)>
-        image: diegoclair/hello-k8s:v3
+        image: diegoclair/hello-k8s:v6
         envFrom:
         - configMapRef:
             name: goserver-env
+        - secretRef:
+            name: auth-secret
         
         volumeMounts:
           - mountPath: /go/employees
