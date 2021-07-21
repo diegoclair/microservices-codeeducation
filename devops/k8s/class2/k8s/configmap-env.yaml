@@ -1,0 +1,9 @@
+# if you apply your config map with new changes, YOU NEED to reapply your deployment
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: goserver-env
+data:
+  NAME: Diego
+  AGE: "27"
