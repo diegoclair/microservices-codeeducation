@@ -6,9 +6,14 @@ spec:
   selector:
     app: goserver
   type: ClusterIP
+  #types -> we have the:
+    # ClusterIP    - to be used only internally, it not generate a external IP
+    # NodePort     - It creates a port to be access from your cluster IP, so if you have the cluster IPAddress, you can access this service when you use the created NodePort
+    # LoadBalancer - It generates a external IP to be access externally, in your computer it not generate an external IP but when you are using a cloud, the IP will be generated.
   ports:
   - name: goserver-service
     port: 80
-    targetPort: 8081 # if we want to access our service on port 80, but our pods (server.go in this case) is listening in a different port, we can use this targetPort 
+    targetPort: 8081 
+    # targetPort    - if we want to access our service on port 80, but our pods (server.go in this case) is listening in a different port, we can use this targetPort 
     # If we do not put the targetPort, than the targetPort will be the same of our port
     protocol: TCP
