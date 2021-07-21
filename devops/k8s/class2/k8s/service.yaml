@@ -8,5 +8,7 @@ spec:
   type: ClusterIP
   ports:
   - name: goserver-service
-    port: 8081
+    port: 80
+    targetPort: 8081 # if we want to access our service on port 80, but our pods (server.go in this case) is listening in a different port, we can use this targetPort 
+    # If we do not put the targetPort, than the targetPort will be the same of our port
     protocol: TCP
