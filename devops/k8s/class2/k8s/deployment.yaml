@@ -17,7 +17,7 @@ spec:
       containers:
       - name: goserver
         #if you apply this file with a new version image, you ca use commands like kubectl rollout undo deployment <name of your deployment (here is goserver)>
-        image: diegoclair/hello-k8s:v6
+        image: diegoclair/hello-k8s:v6.1
         envFrom:
         - configMapRef:
             name: goserver-env

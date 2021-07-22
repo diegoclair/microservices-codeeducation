@@ -6,12 +6,16 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
+
+var startedAt time.Time = time.Now()
 
 func main() {
 	http.HandleFunc("/", Hello)
-	http.HandleFunc("/secret", Secret)
 	http.HandleFunc("/configmap", ConfigMap)
+	http.HandleFunc("/healthz", Healthz)
+	http.HandleFunc("/secret", Secret)
 	log.Println("Server is up")
 	err := http.ListenAndServe(":8081", nil)
 	if err != nil {
@@ -27,12 +31,17 @@ func Hello(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello, I'm %s. I'm %s years old.", name, age)
 }
 
-func Secret(w http.ResponseWriter, r *http.Request) {
+func Healthz(w http.ResponseWriter, r *http.Request) {
 
-	user := os.Getenv("USER")
-	password := os.Getenv("PASSWORD")
+	duration := time.Since(startedAt)
 
-	fmt.Fprintf(w, "This is your user: %s. This is your password: %s ", user, password)
+	if duration.Seconds() > 25 {
+		w.WriteHeader(500)
+		w.Write([]byte(fmt.Sprintf("Duration: %v", duration.Seconds())))
+	} else {
+		w.WriteHeader(200)
+		w.Write([]byte("Ok"))
+	}
 }
 
 func ConfigMap(w http.ResponseWriter, r *http.Request) {
@@ -43,4 +52,12 @@ func ConfigMap(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, "Employees: %s", string(data))
+}
+
+func Secret(w http.ResponseWriter, r *http.Request) {
+
+	user := os.Getenv("USER")
+	password := os.Getenv("PASSWORD")
+
+	fmt.Fprintf(w, "This is your user: %s. This is your password: %s ", user, password)
 }
