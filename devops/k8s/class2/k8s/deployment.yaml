@@ -18,6 +18,16 @@ spec:
       - name: goserver
         #if you apply this file with a new version image, you ca use commands like kubectl rollout undo deployment <name of your deployment (here is goserver)>
         image: diegoclair/hello-k8s:v6.1
+
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081        # here is the container port "that we start our server.go"
+          periodSeconds: 5    # how many time we will await to call the endpoint again
+          failureThreshold: 3 # how many time we will call the endpoint and receive failure to consider there has an error with our app
+          timeoutSeconds: 1   # how many time we will consider a normal time to wait for the path to response 
+          successThreshold: 1 # how many time we will call the endpoint to consider that our app health is ok!
+
         envFrom:
         - configMapRef:
             name: goserver-env
