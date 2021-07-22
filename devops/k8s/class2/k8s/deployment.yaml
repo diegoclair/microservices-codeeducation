@@ -17,16 +17,24 @@ spec:
       containers:
       - name: goserver
         #if you apply this file with a new version image, you ca use commands like kubectl rollout undo deployment <name of your deployment (here is goserver)>
-        image: diegoclair/hello-k8s:v6.1
+        image: diegoclair/hello-k8s:v6.2
 
-        livenessProbe:
+        # livenessProbe:
+        #   httpGet:
+        #     path: /healthz
+        #     port: 8081        # here is the container port "that we start our server.go"
+        #   periodSeconds: 5    # how many time we will await to call the endpoint again
+        #   failureThreshold: 3 # how many time we will call the endpoint and receive failure to consider there has an error with our app
+        #   timeoutSeconds: 1   # default is 1 - how many time we will consider a normal time to wait for the path to response 
+        #   successThreshold: 1 # default is 1 - how many time we will call the endpoint to consider that our app health is ok!
+
+        readinessProbe:
           httpGet:
             path: /healthz
-            port: 8081        # here is the container port "that we start our server.go"
-          periodSeconds: 5    # how many time we will await to call the endpoint again
-          failureThreshold: 3 # how many time we will call the endpoint and receive failure to consider there has an error with our app
-          timeoutSeconds: 1   # how many time we will consider a normal time to wait for the path to response 
-          successThreshold: 1 # how many time we will call the endpoint to consider that our app health is ok!
+            port: 8081
+          periodSeconds: 3
+          failureThreshold: 1
+          initialDelaySeconds: 10 # if we know that our app is not up before 10 secods, than we do not need to check before the delay
 
         envFrom:
         - configMapRef:
