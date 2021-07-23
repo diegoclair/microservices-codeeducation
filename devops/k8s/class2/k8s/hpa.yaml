@@ -1,0 +1,19 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: goserver-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: goserver
+  minReplicas: 1  # Prod should be at least 3
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 30  # in prod, should be something between 75 or 80, it depends how much time your app need to be up
+
+
+
+# command to do stress test: kubectl run fortio -it --rm --image=fortio/fortio -- load -qps 800 -t 120s -c 70 "http://goserver-service/healthz"
+# this command will do 800 request among 70 simultaneous threads
+
+# fortio where hou can see the possible parameters like qps : https://github.com/fortio/fortio

@@ -27,30 +27,30 @@ spec:
         # now we do not need the initialDelay anymore, the problem of initialDelay is because your app can be running in 5 sec or 1 min and with startupProbe, it will say
         # that your app is on, when it is really on!
 
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8081        # here is the container port "that we start our server.go"
-          periodSeconds: 5    # how many time we will await to call the endpoint again
-          failureThreshold: 1 # how many time we will call the endpoint and receive failure to consider there has an error with our app
-          timeoutSeconds: 1   # default is 1 - how many time we will consider a normal time to wait for the path to response 
-          successThreshold: 1 # default is 1 - how many time we will call the endpoint to consider that our app health is ok!
-          # initialDelaySeconds: 10 # if we know that our app is not up before 10 secods, than we do not need to check before the delay
+        # livenessProbe:
+        #   httpGet:
+        #     path: /healthz
+        #     port: 8081        # here is the container port "that we start our server.go"
+        #   periodSeconds: 5    # how many time we will await to call the endpoint again
+        #   failureThreshold: 1 # how many time we will call the endpoint and receive failure to consider there has an error with our app
+        #   timeoutSeconds: 1   # default is 1 - how many time we will consider a normal time to wait for the path to response 
+        #   successThreshold: 1 # default is 1 - how many time we will call the endpoint to consider that our app health is ok!
+        #   # initialDelaySeconds: 10 # if we know that our app is not up before 10 secods, than we do not need to check before the delay
 
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: 8081
-          periodSeconds: 3
-          failureThreshold: 1
-         # initialDelaySeconds: 10
+        # readinessProbe:
+        #   httpGet:
+        #     path: /healthz
+        #     port: 8081
+        #   periodSeconds: 3
+        #   failureThreshold: 1
+        #  # initialDelaySeconds: 10
 
-        startupProbe:
-          httpGet:
-            path: /healthz
-            port: 8081
-          periodSeconds: 3
-          failureThreshold: 30 # it will check on each 3 seconds and for 30 times if your application is up (1m30s)
+        # startupProbe:
+        #   httpGet:
+        #     path: /healthz
+        #     port: 8081
+        #   periodSeconds: 3
+        #   failureThreshold: 30 # it will check on each 3 seconds and for 30 times if your application is up (1m30s)
           
         envFrom:
         - configMapRef:
@@ -66,10 +66,10 @@ spec:
         resources:
           requests: # here is the minimun needed     /  whe can use m(milicore) as unit or percentage: 0.3 for example
             memory: 20Mi
-            cpu: "0.3" 
+            cpu: "0.05" 
           limits:   # here is the maximum that the pod can use from our server 
             memory: "30Mi"
-            cpu: "0.3"
+            cpu: "0.05"
           # to see the usage metric of a pod you can use: kubectl top pod <pod-name>
 
       # with this volume we can mount the volume and this file will be created in our pods so the server.go will be able to read the file
