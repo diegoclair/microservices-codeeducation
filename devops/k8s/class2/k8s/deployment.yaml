@@ -64,9 +64,12 @@ spec:
             readOnly: true
 
         resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+          requests: # here is the minimun needed     /  whe can use m(milicore) as unit or percentage: 0.3 for example
+            memory: 20Mi
+            cpu: "0.3" 
+          limits:   # here is the maximum that the pod can use from our server 
+            memory: "30Mi"
+            cpu: "0.3"
 
       # with this volume we can mount the volume and this file will be created in our pods so the server.go will be able to read the file
       volumes:
