@@ -19,14 +19,23 @@ spec:
         #if you apply this file with a new version image, you ca use commands like kubectl rollout undo deployment <name of your deployment (here is goserver)>
         image: diegoclair/hello-k8s:v6.2
 
-        # livenessProbe:
-        #   httpGet:
-        #     path: /healthz
-        #     port: 8081        # here is the container port "that we start our server.go"
-        #   periodSeconds: 5    # how many time we will await to call the endpoint again
-        #   failureThreshold: 3 # how many time we will call the endpoint and receive failure to consider there has an error with our app
-        #   timeoutSeconds: 1   # default is 1 - how many time we will consider a normal time to wait for the path to response 
-        #   successThreshold: 1 # default is 1 - how many time we will call the endpoint to consider that our app health is ok!
+        # Liveness see if your container is OK, if not, it will try to restart your container!
+        # Readiness check if your container is ready, if not, it will remove your container from receive traffic and than the liveness will restart
+        # so, the readiness work more to your container not receive requests when it is not ready. 
+
+        # StartupProbe will check if your app is Up, if not, the liveness and readiness will not run until startup check if the app is running
+        # now we do not need the initialDelay anymore, the problem of initialDelay is because your app can be running in 5 sec or 1 min and with startupProbe, it will say
+        # that your app is on, when it is really on!
+
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081        # here is the container port "that we start our server.go"
+          periodSeconds: 5    # how many time we will await to call the endpoint again
+          failureThreshold: 1 # how many time we will call the endpoint and receive failure to consider there has an error with our app
+          timeoutSeconds: 1   # default is 1 - how many time we will consider a normal time to wait for the path to response 
+          successThreshold: 1 # default is 1 - how many time we will call the endpoint to consider that our app health is ok!
+          # initialDelaySeconds: 10 # if we know that our app is not up before 10 secods, than we do not need to check before the delay
 
         readinessProbe:
           httpGet:
@@ -34,8 +43,15 @@ spec:
             port: 8081
           periodSeconds: 3
           failureThreshold: 1
-          initialDelaySeconds: 10 # if we know that our app is not up before 10 secods, than we do not need to check before the delay
+         # initialDelaySeconds: 10
 
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          periodSeconds: 3
+          failureThreshold: 30 # it will check on each 3 seconds and for 30 times if your application is up (1m30s)
+          
         envFrom:
         - configMapRef:
             name: goserver-env
