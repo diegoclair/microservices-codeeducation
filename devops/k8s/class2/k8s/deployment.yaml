@@ -60,8 +60,10 @@ spec:
         
         volumeMounts:
           - mountPath: /go/employees
-            name: config-employee  #our volume name
+            name: config-employee  # our volume name
             readOnly: true
+          - mountPath: /go/pvc
+            name: goserver-volume  # our volume name
 
         resources:
           requests: # here is the minimun needed     /  whe can use m(milicore) as unit or percentage: 0.3 for example
@@ -72,8 +74,12 @@ spec:
             cpu: "0.05"
           # to see the usage metric of a pod you can use: kubectl top pod <pod-name>
 
-      # with this volume we can mount the volume and this file will be created in our pods so the server.go will be able to read the file
       volumes:
+      - name: goserver-volume
+        persistentVolumeClaim:
+          claimName: goserver-pvc
+
+      # with this volume we can mount the volume and this file will be created in our pods so the server.go will be able to read the file
       - name: config-employee
         configMap:
           name: configmap-employee
