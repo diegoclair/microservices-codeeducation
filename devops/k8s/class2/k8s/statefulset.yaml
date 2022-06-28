@@ -4,7 +4,7 @@ metadata:
   name: mysql
 spec:
   replicas: 3
-  serviceName: mysql-service-h
+  serviceName: mysql-service-h   #it can be defined only here, but if we want to costumize, we can define a Service file with this name, as mysql-service-headless.yaml file
   #podManagementPolicy: Parallel   #to use a parallel process, we need to delete the statefulset, remove the replicas from this spec and apply again, then is we need to scale, we use the command below:
   # kubectl scale statefulset mysql --replicas=5  and the it will create the five pods in parallel mode
   selector:

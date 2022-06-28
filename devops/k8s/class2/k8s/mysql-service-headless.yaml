@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service-h  # it is been used on statefulset file
+spec:
+  selector:
+    app: mysql
+  ports:
+  - port: 3306
+  clusterIP: None  # it means that the service will work with a DNS, so it will not create an IP address
+
+# with this service, without IP we can call it by name, for example, our pods are named as mysql, so if we have 3 replicas, the name will be mysql-0, mysql-1 and mysql-2
+# so with we want to call we need to use the pattern: (podname).(service-name).(namespace) for example -> mysql-0.mysql-service-h.default.svc.cluster.local
