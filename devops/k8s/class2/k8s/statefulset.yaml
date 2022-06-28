@@ -21,3 +21,19 @@ spec:
         env:
           - name: MYSQL_ROOT_PASSWORD
             value: root
+        volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-volume
+
+  # if we have a statefulset with mysql for example, we need a volume to store data. But we need a separated volume for each pod created and if we need to scale, we want that the volumes could be created dinamically
+  # after apply this file, we can get the pvc with kubectl get pvc and it should have a pvc for each pod of the replicas of our statefulset config in this file
+  # IMPORTANT if some pod has ben killed for any causes, the volume will not be deleted and when the kubernetes recreate the pod, it will use the same volume as before, for example pod mysql-1 and volume-mysql-1
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-volume
+    spec: 
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
