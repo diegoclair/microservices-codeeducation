@@ -1,0 +1,27 @@
+
+# HERE IS AN EXEMPLE TO CREATE A INGRESS USING TLS  (tls is defined in cluster-issuer.yaml file)
+# to use certificate here, we need first to configurate the DNS 
+# after apply the two files, to see certificate we can run kubectl get certificates      and see if its already READY
+
+# apiVersion: networking.k8s.io/v1beta1
+# kind: Ingress
+# metadata:
+#   name: ingress-host
+#   annotations:
+#     kubernetes.io/ingress.class: "nginx"
+#     cert-manager.io/cluster-issuer: "letsencrypt"
+#     ingress.kubernetes.io/force-ssl-redirect: "true"
+# spec:
+#   rules:
+#   - host: "ingress.fullcycle.com.br"
+#     http:
+#       paths:
+#       - pathType: Prefix
+#         path: "/admin"
+#         backend:
+#           serviceName: goserver-service
+#           servicePort: 80
+#   tls:
+#   - hosts:
+#     - "ingress.fullcycle.com.br"
+#     secretName: letsencrypt-tls

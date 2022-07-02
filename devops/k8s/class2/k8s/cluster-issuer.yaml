@@ -1,0 +1,19 @@
+
+# installing cert-manager with this docs: https://cert-manager.io/docs/installation/kubectl/#prerequisites
+# IMPORTANT: Using lets encrypt we do not need to take care of renew the certificate, lets encrypt will generate the certificate, renew the certificate all automatically
+
+# apiVersion: cert-manager.io/v1alpha2
+# kind: ClusterIssuer
+# metadata:
+#   name: letsencrypt
+#   namespace: cert-manager
+# spec:
+#   acme:
+#     server: https://acme-v02.api.letsencrypt.org/directory
+#     email: wesley@schoolofnet.com
+#     privateKeySecretRef:
+#       name: letsencrypt-tls
+#     solvers:
+#     - http01:
+#         ingress:
+#           class: nginx
