@@ -9,8 +9,7 @@ require (
 	github.com/cznic/ql v1.2.0 // indirect
 	github.com/diegoclair/go_utils-lib v1.1.3
 	github.com/go-sql-driver/mysql v1.5.0
-	github.com/labstack/echo v3.3.10+incompatible
-	github.com/labstack/echo/v4 v4.2.1
+	github.com/labstack/echo/v4 v4.9.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/satori/go.uuid v1.2.0
 	github.com/spf13/cast v1.3.1 // indirect
