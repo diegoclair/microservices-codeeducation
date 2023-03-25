@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+Kind: VirtualService
+metadata:
+  name: nginx-vs
+spec:
+  hosts:
+  - nginx-service #is from the service configuration from deployment.yaml
+  
+  http:
+    - route:
+      - destination:
+          host: nginx-service
+          subset: v1 #this subset is from the destination rule dr.yaml file
+        weight: 90
+      - destination:
+          host: nginx-service
+          subset: v2
+        weight: 10
