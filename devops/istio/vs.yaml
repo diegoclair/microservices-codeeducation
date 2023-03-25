@@ -1,11 +1,11 @@
+#here we define the routing rules, to where and how much traffic should go to each destinationRule
 apiVersion: networking.istio.io/v1alpha3
-Kind: VirtualService
+kind: VirtualService 
 metadata:
   name: nginx-vs
 spec:
   hosts:
   - nginx-service #is from the service configuration from deployment.yaml
-  
   http:
     - route:
       - destination:

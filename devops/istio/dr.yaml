@@ -1,5 +1,6 @@
+# here we define the subsets, to what pods should the traffic go to
 apiVersion: networking.istio.io/v1alpha3
-Kind: DestinationRule
+kind: DestinationRule 
 metadata:
   name: nginx-dr
 spec:
