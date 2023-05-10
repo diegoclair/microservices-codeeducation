@@ -11,8 +11,8 @@ spec:
       - destination:
           host: nginx-service
           subset: v1 #this subset is from the destination rule dr.yaml file
-        weight: 90
+        weight: 100
       - destination:
           host: nginx-service
           subset: v2
-        weight: 10
+        weight: 0
