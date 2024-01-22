@@ -1,0 +1,44 @@
+version: '3'
+
+services: 
+  elasticsearch: # check container availability: http://localhost:9200/ and memory usage: http://localhost:9200/_cat/nodes?v&h=heap*&pretty
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=es-docker-cluster
+      # - cluster.initial_master_nodes=elasticsearch # not working in this version of elastic
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - http.cors.enabled=true
+      - http.cors.allow-origin="*"
+      - discovery.type=single-node
+      # below are the settings for disabling https security
+      - xpack.security.enabled=false # new versions of elastic, the security is enabled by default
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./docker/elastic_data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - observability
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.0
+    container_name: kibana
+    ports: 
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200 # our elastic search container
+      - ELASTICSEARCH_URL='["http://elasticsearch:9200"]'
+    networks:
+      - observability
+
+networks:
+  observability:
+    driver: bridge
+    
